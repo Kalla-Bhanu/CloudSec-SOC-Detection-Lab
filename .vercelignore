@@ -1,0 +1,13 @@
+.git
+.github
+.vercel
+data
+docs
+evidence-templates
+harness
+node_modules
+tools
+*.md
+*.pptx
+*.log
+*.tmp

@@ -35,7 +35,8 @@ tools/                Utility scripts for generated public-safe assets
 
 ## Key Artifacts
 
-- Live dashboard: `https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/`
+- Live dashboard (GitHub Pages): `https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/`
+- Live dashboard (Vercel): `https://cloudsec-soc-detection-lab.vercel.app/`
 - Dashboard: `dashboard/index.html`
 - Flowcharts: `docs/architecture-and-flowcharts.md`
 - Demo walkthrough: `docs/demo-walkthrough.md`
@@ -45,13 +46,14 @@ tools/                Utility scripts for generated public-safe assets
 
 ## Run The Dashboard Locally
 
-The dashboard is designed to be hosted with GitHub Pages at:
+The dashboard is hosted publicly at:
 
 ```text
 https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/
+https://cloudsec-soc-detection-lab.vercel.app/
 ```
 
-If GitHub Pages is not enabled yet, enable it from repository settings using `GitHub Actions` as the source. The workflow in `.github/workflows/pages.yml` publishes the `dashboard/` folder.
+GitHub Pages publishes the `dashboard/` folder through `.github/workflows/pages.yml`. Vercel serves the same dashboard with `vercel.json` redirecting the root URL to `/dashboard/`.
 
 To run the same dashboard locally:
 

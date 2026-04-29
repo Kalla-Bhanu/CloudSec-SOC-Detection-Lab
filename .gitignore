@@ -32,6 +32,7 @@ Thumbs.db
 
 # Node/Python local artifacts
 node_modules/
+.vercel/
 __pycache__/
 *.pyc
 tmp/
