@@ -11,7 +11,7 @@ Interpretation: Use this to confirm whether the same key moved from normal autom
 ## Identity correlation
 
 ```text
-source IN ("Okta","Google Workspace") AND user_or_service="jane.admin" AND timestamp BETWEEN "2026-04-08T08:00:00Z" AND "2026-04-08T08:30:00Z"
+source IN ("identity-provider","workspace-admin") AND user_or_service="admin.user" AND timestamp BETWEEN "2026-04-08T08:00:00Z" AND "2026-04-08T08:30:00Z"
 ```
 
 Interpretation: This tight correlation window shows whether the suspicious login and privileged SaaS action belong to the same investigation chain.
@@ -19,7 +19,7 @@ Interpretation: This tight correlation window shows whether the suspicious login
 ## Endpoint to database pivot
 
 ```text
-hostname="fin-ws-22" AND (process_name="mongosh.exe" OR network_destination CONTAINS "mongo-prod")
+hostname="workstation-lab-22" AND (process_name="mongosh.exe" OR network_destination CONTAINS "mongo-lab")
 ```
 
 Interpretation: This isolates the host activity that bridges endpoint compromise into database access.
@@ -30,4 +30,4 @@ Interpretation: This isolates the host activity that bridges endpoint compromise
 aws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,AttributeValue=GetSecretValue --max-results 10
 ```
 
-Interpretation: This is the fastest live check for whether suspicious workload identity activity reached production secrets.
+Interpretation: This is the fastest lab check for whether suspicious workload identity activity reached protected secrets.

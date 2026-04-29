@@ -45,4 +45,4 @@ powershell -ExecutionPolicy Bypass -File ".\invoke-cloudsec-test-harness.ps1" -S
 
 Use this as a test harness for detection validation:
 
-`I built a clearly labeled detection rule test harness that injects synthetic events shaped like the original architecture's non-AWS sources, so I can validate rule logic and demonstrate the detection patterns even without access to the original vendor tenants.`
+`I built a clearly labeled detection rule test harness that injects synthetic events shaped like the lab's non-AWS sources, so I can validate rule logic and demonstrate the detection patterns without relying on private vendor tenants.`

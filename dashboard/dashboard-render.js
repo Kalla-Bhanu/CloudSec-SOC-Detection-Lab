@@ -172,15 +172,15 @@ const renderBrief = () => `
   ${card("Executive Snapshot", statGrid([
     { label: "Scenario coverage", value: "100%", note: "Five of five lab paths are implemented" },
     { label: "Surface spread", value: "10", note: "Identity, cloud, runtime, endpoint, and data" },
-    { label: "Artifact mapping", value: "19", note: "Mapped into the evidence manifest" },
+    { label: "Artifact mapping", value: "18", note: "Mapped into the evidence manifest" },
     { label: "Review stages", value: "5", note: "Scope, environment, evidence, logic, and demo" }
   ]), "Overview")}
   ${card("Domain Matrix", compactTable(
     ["Domain", "Primary surfaces", "Proof posture", "Review role"],
     [
-      ["Identity", "Okta / Google Workspace", "Context + preserved", "Privileged SaaS path"],
-      ["Cloud", "CloudTrail / S3 / Datadog", "Live + preserved", "Control-plane misuse"],
-      ["Runtime", "EKS / Secrets Manager / Lambda", "Live + rebuilt", "Workload-to-secret chain"],
+      ["Identity", "Identity provider / workspace admin", "Context + synthetic", "Privileged SaaS path"],
+      ["Cloud", "CloudTrail / S3 / Datadog", "Validated lab", "Control-plane misuse"],
+      ["Runtime", "EKS / Secrets Manager / Lambda", "Runtime model", "Workload-to-secret chain"],
       ["Endpoint / Data", "CrowdStrike / MongoDB / Tenable", "Support + context", "Pivot and exposure review"]
     ]
   ), "Coverage")}
@@ -197,10 +197,10 @@ const renderBrief = () => `
     { title: "Environment", note: "Validated surfaces and current runtime posture" },
     { title: "Evidence", note: "Artifacts mapped to use cases" },
     { title: "Logic", note: "Scenario engineering and query pivots" },
-    { title: "Demo", note: "Run order, live AWS path, and fallback proof" }
+    { title: "Demo", note: "Run order, controlled replay path, and fallback proof" }
   ]), "Flow")}
   ${card("Signal Architecture", signalChain([
-    { title: "Identity context", note: "Okta and Google Workspace support the human-side review when available" },
+    { title: "Identity context", note: "Identity and workspace admin context support the human-side review when available" },
     { title: "Cloud control plane", note: "CloudTrail, S3, and Secrets access surfaces" },
     { title: "Correlation layer", note: "Datadog signals and cross-platform context" },
     { title: "Runtime path", note: "EKS cluster, workload, and secret retrieval chain" },
@@ -242,13 +242,13 @@ const renderExecution = (state, actions) => {
       { label: "AWS runtime", value: "Rebuilt" },
       { label: "Residual cost", value: "Controlled" },
       { label: "Archive state", value: "Ready" },
-      { label: "Demo-day mode", value: "Live + preserved" }
+      { label: "Demo-day mode", value: "Validated + synthetic" }
     ])}
     <div class="grid two-col">
       ${card("Runtime Metrics", statGrid(APP_DATA.awsCurrentMetrics), "AWS State")}
       ${card("Proof Posture", `
         ${stackedMeter(postureCounts)}
-        <p class="section-intro">The environment is intentionally split between rebuilt live surfaces, preserved proof, contextual panels, and supplementary support.</p>
+        <p class="section-intro">The environment is intentionally split between validated lab surfaces, synthetic replay, contextual panels, and supplementary support.</p>
       `, "Coverage")}
     </div>
     <div class="grid two-col">
@@ -268,7 +268,7 @@ const renderExecution = (state, actions) => {
       `, "AWS")}
     </div>
     ${card("Runtime Decision Path", signalChain([
-      { title: "Rebuild surfaces", note: "Restore the AWS audit, secrets, runtime, and forwarding path" },
+      { title: "Prepare surfaces", note: "Confirm the audit, secrets, runtime, and forwarding path" },
       { title: "Verify telemetry", note: "Confirm logs, secrets access, and workload telemetry are real" },
       { title: "Preserve proof", note: "Keep archived screenshots and mapped evidence as the fallback layer" },
       { title: "Control cost", note: "Keep teardown-ready notes for billable runtime after the review" }
@@ -319,7 +319,7 @@ const renderExecution = (state, actions) => {
     ${contextBar([
       { label: "Runtime control", value: "Focused" },
       { label: "Cloud rebuild", value: "Completed" },
-      { label: "Runtime target", value: "AWS + Datadog live path" },
+      { label: "Runtime target", value: "AWS + Datadog lab path" },
       { label: "Cleanup rule", value: "Delete after demo" }
     ])}
     <div class="grid two-col">
@@ -330,16 +330,16 @@ const renderExecution = (state, actions) => {
       `, "Runbook")}
       ${card("Runtime Scope", taxonomyGrid([
         { label: "Keep live", value: "CloudTrail / Secrets / EKS", note: "These rebuilt surfaces now support the review path directly" },
-        { label: "Keep honest", value: "IdP / collaboration feeds", note: "Datadog query, monitors, and signals are verified; Okta and Google are not native Datadog feeds" },
+        { label: "Keep honest", value: "Identity / workspace feeds", note: "Datadog-style queries, monitors, and signals are verified; context panels are not native feed claims" },
         { label: "Do not overclaim", value: "Detection content restored", note: "Data sources existing is not the same as rule coverage" },
         { label: "Post-demo", value: "Delete again", note: "Return the account to a lower-cost baseline after the review" }
       ]), "Control")}
     </div>
     ${card("Demo-Day Control Board", matrixTable(
-      ["Before relaunch", "During review", "After review"],
+      ["Before review", "During review", "After review"],
       [
-        { label: "AWS state", values: ["Rebuilt and verified core surfaces", "Live AWS plus preserved proof", "Runtime reduced again"] },
-        { label: "Proof source", values: ["Dashboard plus preserved archive", "Dashboard plus live tab reinforcement", "Archive remains primary record"] },
+        { label: "AWS state", values: ["Validated lab surfaces", "Dashboard plus optional console proof", "Public-safe archive remains"] },
+        { label: "Proof source", values: ["Dashboard plus evidence visuals", "Dashboard plus query pivots", "Evidence map remains primary record"] },
         { label: "Risk posture", values: ["Cost watched", "Controlled live exposure", "Account returns to safe baseline"] }
       ]
     ), "Operations")}
@@ -368,7 +368,7 @@ const renderEvidence = (state, actions) => {
       ${card("Catalog Metrics", statGrid([
         { label: "Evidence groups", value: String(APP_DATA.evidenceGroups.length), note: "Identity, cloud, runtime, endpoint, and workflow" },
         { label: "Group artifacts", value: String(group.items.length), note: "Items available in the selected group" },
-        { label: "Mapped archive", value: "19", note: "Artifacts preserved across the full proof package" },
+        { label: "Mapped archive", value: "18", note: "Artifacts mapped across the full proof package" },
         { label: "Selected use case", value: evidence.useCase, note: "Current drill-down target" }
       ]), "Inventory")}
       ${card("Artifact Table", compactTable(
@@ -426,7 +426,7 @@ const renderEvidence = (state, actions) => {
       { title: "Open live tab", note: "Only if it strengthens the explanation" }
     ]), "Flow")}
     ${card("Artifact Distribution", taxonomyGrid([
-      { label: "Identity artifacts", value: "2", note: "Okta and Google admin proof" },
+      { label: "Identity artifacts", value: "2", note: "Identity and workspace admin proof" },
       { label: "Cloud artifacts", value: "4", note: "CloudTrail, S3, and Datadog" },
       { label: "Runtime artifacts", value: "4", note: "EKS and Secrets capture set" },
       { label: "Endpoint and workflow", value: "9", note: "MongoDB, support panels, and review visuals" }
@@ -519,14 +519,14 @@ const renderDemo = (state) => {
       { label: "Mode", value: state.demoView === "run" ? "Run order" : state.demoView === "relaunch" ? "Runtime control" : "Backups" },
       { label: "Primary surface", value: "Dashboard" },
       { label: "Fallback", value: "Archive" },
-      { label: "Live risk", value: "Controlled" }
+      { label: "Demo risk", value: "Controlled" }
     ])}
     <div class="grid two-col">
       ${card("Readiness Metrics", statGrid([
         { label: "Walkthrough stages", value: "5", note: "Scope to closeout" },
         { label: "Primary live tabs", value: String(APP_DATA.demoPlan.liveTabs.length), note: "Only open when they add proof" },
         { label: "Backup artifacts", value: String(APP_DATA.demoPlan.backups.length), note: "Ready if any vendor tab slows down" },
-        { label: "AWS control tasks", value: String(APP_DATA.demoPlan.relaunch.length), note: "Concrete runtime-control tasks for the rebuilt environment" }
+        { label: "Control tasks", value: String(APP_DATA.demoPlan.relaunch.length), note: "Concrete runtime-control tasks for the public lab environment" }
       ]), "Control")}
       ${card("Execution Board", compactTable(
         ["Step", "Primary surface", "Fallback"],
@@ -552,16 +552,16 @@ const renderDemo = (state) => {
       { title: "Open dashboard", note: "Use this as the main review surface" },
       { title: "Evidence drill-in", note: "Show artifacts before external tabs" },
       { title: "Detection logic", note: "Walk scenarios in lab order" },
-      { title: "Live context", note: "Vendor tabs only where helpful" },
+      { title: "Optional context", note: "External tabs only where helpful" },
       { title: "Closeout", note: "Runtime-control and fallback plan" }
     ]), "Flow")}
     <div class="grid two-col">
-      ${card("Primary Live Tabs", listHtml(APP_DATA.demoPlan.liveTabs), "Live Tabs")}
+      ${card("Primary Proof Tabs", listHtml(APP_DATA.demoPlan.liveTabs), "Proof Tabs")}
       ${card("Operational Constraints", `
         <ul class="bullet-list">
           <li>Use the dashboard as the primary review surface.</li>
           <li>Open vendor tabs only when they add proof or context.</li>
-          <li>Keep live, context, and preserved surfaces labeled before opening tabs.</li>
+          <li>Keep validated, context, supporting, and synthetic surfaces labeled before opening tabs.</li>
           <li>Keep the screenshot archive ready as the fallback proof package.</li>
         </ul>
       `, "Constraints")}
@@ -569,8 +569,8 @@ const renderDemo = (state) => {
     ${card("Review Control Model", matrixTable(
       ["Primary surface", "Optional live tab", "Fallback"],
       [
-        { label: "Identity review", values: ["Dashboard + evidence group", "Okta / Google Admin", "Screenshot archive"] },
-        { label: "Cloud review", values: ["Dashboard + logic stage", "AWS / Datadog", "Cloud proof captures"] },
+        { label: "Identity review", values: ["Dashboard + evidence group", "Identity / workspace context", "Evidence archive"] },
+        { label: "Cloud review", values: ["Dashboard + logic stage", "AWS / Datadog-style proof", "Cloud proof visuals"] },
         { label: "Runtime review", values: ["Dashboard + runtime status", "EKS live view", "Archived EKS proof"] },
         { label: "Closeout", values: ["Demo readiness stage", "None required", "Timeline visual"] }
       ]

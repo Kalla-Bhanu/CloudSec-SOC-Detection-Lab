@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datadog Signal Review</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 1400px;
+      height: 900px;
+      overflow: hidden;
+      font-family: "Aptos", "Segoe UI", Arial, sans-serif;
+      color: #14202e;
+      background: #eef3f8;
+    }
+    .frame {
+      width: 1400px;
+      height: 900px;
+      padding: 42px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.92), rgba(244,247,251,0.86)),
+        linear-gradient(90deg, #632ca6 0 1.2%, transparent 1.2%);
+    }
+    .shell {
+      height: 816px;
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 26px;
+    }
+    .panel {
+      border: 1px solid #d5dde8;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 24px 52px rgba(20, 32, 46, 0.10);
+      overflow: hidden;
+    }
+    .hero {
+      padding: 28px 30px 22px;
+      background: linear-gradient(180deg, #ffffff, #f7fafc);
+      border-bottom: 1px solid #d5dde8;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: color-mix(in srgb, #632ca6 12%, white);
+      color: #632ca6;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    h1 {
+      margin: 18px 0 10px;
+      font-size: 44px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0;
+      color: #5d6a7a;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 18px;
+    }
+    .metric {
+      padding: 14px;
+      border: 1px solid #d5dde8;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+    .metric span {
+      display: block;
+      color: #5d6a7a;
+      font-size: 14px;
+    }
+    .metric strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 24px;
+      color: #14202e;
+    }
+    .flow {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border: 1px solid #d5dde8;
+      border-radius: 10px;
+      background: #ffffff;
+    }
+    .step b {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: #632ca6;
+      color: white;
+    }
+    .step span {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .table {
+      padding: 26px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 0.82fr 1fr 1.35fr;
+      gap: 10px;
+      min-height: 70px;
+    }
+    .row div {
+      display: flex;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid #d5dde8;
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+    .row div:first-child {
+      color: #632ca6;
+      font-weight: 800;
+      background: color-mix(in srgb, #632ca6 9%, white);
+    }
+    .footer {
+      padding: 18px 26px;
+      border-top: 1px solid #d5dde8;
+      color: #5d6a7a;
+      font-size: 15px;
+      background: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <div class="shell">
+      <section class="panel">
+        <div class="hero">
+          <span class="status">Validated</span>
+          <h1>Datadog Signal Review</h1>
+          <p>Cloud and data-access alerts converted into response-ready signal context.</p>
+        </div>
+        <div class="metrics">
+      <div class="metric">
+        <span>Signals</span>
+        <strong>3</strong>
+      </div>
+    
+      <div class="metric">
+        <span>MTTD</span>
+        <strong>53 sec</strong>
+      </div>
+    
+      <div class="metric">
+        <span>Owner</span>
+        <strong>Cloud SOC</strong>
+      </div>
+    </div>
+        <div class="flow">
+      <div class="step">
+        <b>01</b>
+        <span>Log</span>
+      </div>
+    
+      <div class="step">
+        <b>02</b>
+        <span>Rule</span>
+      </div>
+    
+      <div class="step">
+        <b>03</b>
+        <span>Signal</span>
+      </div>
+    
+      <div class="step">
+        <b>04</b>
+        <span>Owner</span>
+      </div>
+    
+      <div class="step">
+        <b>05</b>
+        <span>Response</span>
+      </div>
+    </div>
+      </section>
+      <section class="panel">
+        <div class="table">
+      <div class="row">
+        <div>High</div><div>New key source plus IAM change</div><div>AWS Credential Misuse</div>
+      </div>
+    
+      <div class="row">
+        <div>High</div><div>Sensitive S3 retrieval spike</div><div>S3 Data Access</div>
+      </div>
+    
+      <div class="row">
+        <div>Critical</div><div>Workload identity secret access</div><div>EKS Secret Chain</div>
+      </div>
+    
+      <div class="row">
+        <div>Info</div><div>source:test-harness replay</div><div>Synthetic validation</div>
+      </div>
+    </div>
+        <div class="footer">Synthetic public-safe evidence visual. No private tenant names, company names, credentials, customer data, or secret values.</div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

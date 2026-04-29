@@ -1,8 +1,9 @@
 # Dashboard Handoff
 
 ## Primary Demo Surface
-- Primary app: `SOC Detection Lab Dashboard`
-- Primary URL: `http://127.0.0.1:4174/`
+
+- Primary app: `CloudSec SOC Detection Lab`
+- Default local URL: `http://127.0.0.1:4174/`
 - Primary structure:
   - `System Scope`
   - `Environment Status`
@@ -11,33 +12,36 @@
   - `Demo Readiness`
 
 ## Supporting Build Notes
-- The website-style dashboard is the primary demo surface.
-- The older Looker Studio report remains secondary and should not be treated as the main demo artifact.
-- EKS live proof was captured from a real cluster during implementation, then the runtime was removed for cost control.
-- The dashboard evidence model is intentionally mixed:
-  - validated console evidence for Okta, Google Workspace, AWS, Datadog, and the previously active EKS path
-  - live context for MongoDB
-  - supporting panels for CrowdStrike and Tenable
+
+- The website dashboard is the primary demo surface.
+- The dashboard is intentionally public-safe and does not rely on private screenshots.
+- Evidence visuals are generated from repo-owned templates and stored in `dashboard/assets/evidence/`.
+- The harness path is synthetic validation, not a vendor-native integration rebuild.
+- Context surfaces and support panels are useful for the story, but they are not overclaimed as live tenant feeds.
 
 ## Execution Cautions
+
 - Start the local app before the demo if the site is not already running.
 - Use audience-facing browser view, not editor surfaces, during the demo.
-- Do not overclaim CrowdStrike or Tenable as live tenant evidence.
-- If a browser-auth step is blocked, resume in the same Chrome DevTools MCP browser profile after login.
-- Relaunch EKS only when needed and delete it again afterward.
+- Do not overclaim endpoint, exposure, identity, workspace, or database context as live Datadog integrations.
+- Keep `source:test-harness` and `synthetic:true` visible when discussing replay validation.
+- Do not show or describe private company names, tenant identifiers, credentials, secret values, customer data, or live tenant screenshots.
 
 ## Delivery Package Cross-Check
+
 - Dataset package: present in `data/`
-- Page blueprint: present in `docs/dashboard-blueprint.md`
+- Flowcharts: present in `docs/architecture-and-flowcharts.md`
 - Live walkthrough: present in `docs/demo-walkthrough.md`
 - Query appendix: present in `docs/queries/cli-query-examples.md`
 - Supporting evidence templates: present in `evidence-templates/`
+- Generated dashboard evidence assets: present in `dashboard/assets/evidence/`
+- Deck: present in `docs/deck/cloudsec-soc-detection-lab.pptx`
 
 ## Final Handoff Review
-- Review date: `2026-04-11`
+
+- Review date: `2026-04-29`
 - Result: `Passed`
 - Basis:
-  - `2A` through `2E` readiness gates are complete in the implementation document.
-  - Phase 2D and Phase 2E automated readiness validation passes.
-  - A primary website-style dashboard and walkthrough now exist for the live demo flow.
+  - The dashboard, flowcharts, evidence visuals, harness, query appendix, and deck align to the same public-safe scenario model.
+  - No remaining handoff-critical rule depends on unwritten presenter knowledge.
   - The package can be executed in sequence without reopening build order, proof mapping, or page-role decisions.

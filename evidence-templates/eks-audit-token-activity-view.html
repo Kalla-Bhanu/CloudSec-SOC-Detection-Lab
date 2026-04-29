@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -173,15 +173,15 @@
         <div class="facts">
           <div class="fact">
             <div class="k">Workload Identity</div>
-            <div class="v">payments-api-sa</div>
+            <div class="v">app-runtime-sa</div>
           </div>
           <div class="fact">
             <div class="k">Cluster</div>
-            <div class="v">eks-prod-cluster</div>
+            <div class="v">workload-demo-cluster</div>
           </div>
           <div class="fact">
             <div class="k">Secret Target</div>
-            <div class="v">payments-prod-secret</div>
+            <div class="v">critical-service-db-secret</div>
           </div>
           <div class="fact">
             <div class="k">Escalation State</div>
@@ -189,7 +189,7 @@
           </div>
         </div>
         <div class="callout">
-          Presenter cue: emphasize that the danger is not just “an EKS event happened,” but that the same service account reached real secret material in a production payments path.
+          Presenter cue: emphasize that the danger is not just â€œan EKS event happened,â€ but that the same service account reached real secret material in a protected service path.
         </div>
       </section>
 
@@ -201,26 +201,26 @@
             <div class="time">15:01:00Z</div>
             <div>
               <div class="title">EKS audit event from workload identity</div>
-              <div class="meta">Event CLD-4010 • Source: EKS Audit • Kill chain: Execution</div>
-              <span class="badge">payments-api-sa</span>
-              <span class="badge danger">eks-prod-cluster</span>
+              <div class="meta">Event CLD-4010 â€¢ Source: EKS Audit â€¢ Kill chain: Execution</div>
+              <span class="badge">app-runtime-sa</span>
+              <span class="badge danger">workload-demo-cluster</span>
             </div>
           </div>
           <div class="event">
             <div class="time">15:04:00Z</div>
             <div>
               <div class="title">AWS CloudTrail follow-on from same service account</div>
-              <div class="meta">Event CLD-4011 • Source: AWS CloudTrail • Kill chain: Credential Access</div>
-              <span class="badge">Account 111122223333</span>
+              <div class="meta">Event CLD-4011 â€¢ Source: AWS CloudTrail â€¢ Kill chain: Credential Access</div>
+              <span class="badge">Account 123456789012</span>
               <span class="badge">Correlated principal</span>
             </div>
           </div>
           <div class="event">
             <div class="time">15:05:00Z</div>
             <div>
-              <div class="title">GetSecretValue against payments-prod-secret</div>
-              <div class="meta">Event CLD-4012 • Source: AWS CloudTrail • Kill chain: Credential Access</div>
-              <span class="badge danger">payments-prod-secret</span>
+              <div class="title">GetSecretValue against critical-service-db-secret</div>
+              <div class="meta">Event CLD-4012 â€¢ Source: AWS CloudTrail â€¢ Kill chain: Credential Access</div>
+              <span class="badge danger">critical-service-db-secret</span>
               <span class="badge">Secret retrieval confirmed</span>
             </div>
           </div>
@@ -228,8 +228,8 @@
             <div class="time">15:06:00Z</div>
             <div>
               <div class="title">KMS-linked secret access continuation</div>
-              <div class="meta">Event CLD-4013 • Source: AWS CloudTrail • Kill chain: Credential Access</div>
-              <span class="badge danger">payments-prod-kms-key</span>
+              <div class="meta">Event CLD-4013 â€¢ Source: AWS CloudTrail â€¢ Kill chain: Credential Access</div>
+              <span class="badge danger">critical-service-kms-key</span>
               <span class="badge">Escalated</span>
             </div>
           </div>
@@ -239,3 +239,5 @@
   </div>
 </body>
 </html>
+
+

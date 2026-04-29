@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const root = path.resolve(__dirname, "..");
+const root = path.resolve(__dirname);
 const port = Number(process.env.PORT || 4174);
 
 const mime = {
@@ -29,7 +29,7 @@ const server = http.createServer((req, res) => {
   const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
   let filePath =
     urlPath === "/"
-      ? path.join(root, "dashboard-web", "index.html")
+      ? path.join(root, "index.html")
       : path.join(root, urlPath.replace(/^\/+/, ""));
 
   fs.stat(filePath, (statErr, stats) => {
@@ -52,5 +52,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Serving ${root} on http://127.0.0.1:${port}/dashboard-web/index.html`);
+  console.log(`Serving ${root} on http://127.0.0.1:${port}/`);
 });

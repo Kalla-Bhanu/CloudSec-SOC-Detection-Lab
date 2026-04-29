@@ -1,35 +1,46 @@
 # CloudSec SOC Detection Lab
 
-An AWS-first SOC detection engineering lab that demonstrates how to design, validate, and explain five common security monitoring scenarios across cloud, identity, endpoint, and data-access surfaces.
+An AWS-first SOC detection engineering lab that shows how to design, validate, explain, and present five common security monitoring scenarios across cloud, identity, runtime, endpoint, and data-access surfaces.
 
-This repository is a sanitized portfolio version. It contains synthetic data, lab code, dashboard assets, and public-safe documentation only. It does not include private prep notes, production data, live credentials, customer data, screenshots with tenant details, or company-specific material.
+This is the public-safe portfolio version. It uses synthetic datasets, sanitized evidence visuals, lab-safe harness code, and public documentation only. It does not include private company names, tenant identifiers, customer data, real credentials, secret values, private prep notes, or live tenant screenshots.
 
 ## What This Project Shows
 
 - A dashboard-first SOC readout for analyst and leadership review.
-- Five detection scenarios mapped to practical triage and response workflows.
+- Five detection scenarios mapped to triage, query pivots, proof anchors, and response decisions.
+- Public-safe evidence visuals that replace private screenshots.
 - A Lambda-based synthetic event replay harness.
-- Datadog log and monitor validation patterns using `source:test-harness`.
-- AWS investigation context around CloudTrail, IAM, STS, S3, Secrets Manager, and EKS.
-- Supporting evidence templates for escalation packets, analyst checklists, and investigation notes.
+- Datadog log and monitor validation patterns using `source:test-harness` and `synthetic:true`.
+- AWS investigation context around CloudTrail, IAM, STS, S3, Secrets Manager, EKS, and KMS.
+- Flowcharts, evidence templates, a demo runbook, and a presentation deck.
 
 ## Detection Scenarios
 
 1. Identity account takeover pattern.
 2. AWS credential misuse and privilege escalation.
 3. EKS workload identity and secret-access chain.
-4. Endpoint-to-database pivot investigation.
+4. Endpoint-to-MongoDB pivot investigation.
 5. S3 data access and possible exfiltration.
 
 ## Repository Structure
 
 ```text
-dashboard/            Static dashboard UI and local runner
+dashboard/            Static dashboard UI, evidence visuals, and local runner
 data/                 Synthetic CSV datasets used by the lab
-docs/                 Workflow, dashboard, query, and demo documentation
+docs/                 Flowcharts, walkthroughs, query examples, and deck
 harness/              Lambda and Datadog synthetic replay tooling
-evidence-templates/   Public-safe investigation and escalation templates
+evidence-templates/   Public-safe source templates for evidence panels
+tools/                Utility scripts for generated public-safe assets
 ```
+
+## Key Artifacts
+
+- Dashboard: `dashboard/index.html`
+- Flowcharts: `docs/architecture-and-flowcharts.md`
+- Demo walkthrough: `docs/demo-walkthrough.md`
+- CLI/query examples: `docs/queries/cli-query-examples.md`
+- Evidence manifest: `evidence-templates/asset-manifest.md`
+- Presentation deck: `docs/deck/cloudsec-soc-detection-lab.pptx`
 
 ## Run The Dashboard Locally
 
@@ -42,27 +53,28 @@ Then open the local URL printed by the script.
 
 ## Harness Concept
 
-The harness is designed to replay controlled security events into a monitoring system. In this public version, names, account IDs, tenant names, and secrets have been replaced with lab-safe placeholders.
-
-The intent is not to claim production coverage. The intent is to show the detection-engineering flow:
+The harness replays controlled security events into a monitoring system. In this public version, names, account IDs, resource names, and secret paths are placeholders.
 
 ```text
 synthetic scenario event
 -> Lambda replay harness
 -> Datadog logs scoped to source:test-harness
--> monitors / alert conditions
+-> scoped monitor or alert condition
 -> analyst triage and response workflow
 ```
+
+The intent is not to claim production coverage. The intent is to show the detection-engineering flow: scenario design, signal generation, monitor validation, evidence handling, triage, escalation, and presentation.
 
 ## Privacy And Safety
 
 This repository is intentionally sanitized:
 
 - No real company name.
-- No real customer or employee data.
+- No real customer, employee, or tenant data.
 - No production credentials.
 - No private prep notes.
 - No live tenant screenshots.
-- No binary deck exports from the original preparation material.
+- No secret values.
+- No binary exports from private preparation material.
 
-All datasets and examples are synthetic or rewritten for portfolio use.
+All datasets, visuals, examples, and deck content are synthetic or rewritten for portfolio use.

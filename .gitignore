@@ -21,6 +21,8 @@
 *.pptx
 *.pdf
 *.bak
+!docs/deck/
+!docs/deck/cloudsec-soc-detection-lab.pptx
 
 # OS/editor noise
 .DS_Store
@@ -32,3 +34,4 @@ Thumbs.db
 node_modules/
 __pycache__/
 *.pyc
+tmp/

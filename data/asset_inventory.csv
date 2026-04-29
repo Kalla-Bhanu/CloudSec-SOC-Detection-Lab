@@ -1,9 +1,11 @@
-source,asset,severity,scenario,status,asset_id,asset_type,owner,environment,criticality,internet_exposed,vulnerability_score,business_function,platform,telemetry_type
-Tenable Cloud,google-workspace-admin,HIGH,identity_account_takeover,At Risk,AST-6001,SaaS Admin Console,Identity Team,prod,Critical,FALSE,8.1,Workforce Admin,Google Workspace,asset_context
-Tenable Cloud,prod-aws-account,HIGH,aws_iam_key_misuse,Monitored,AST-6002,AWS Account,Cloud Platform,prod,Critical,FALSE,7.4,Prod Control Plane,AWS,asset_context
-Tenable Cloud,eks-prod-cluster,CRITICAL,eks_secret_access_chain,At Risk,AST-6003,Kubernetes Cluster,Payments Platform,prod,Critical,TRUE,9.2,Payment Processing,AWS,asset_context
-Tenable Cloud,payments-prod-secret,CRITICAL,eks_secret_access_chain,At Risk,AST-6004,Secret Store,Payments Platform,prod,Critical,FALSE,9.0,DB Credentials,AWS,asset_context
-Tenable Cloud,fin-ws-22,CRITICAL,endpoint_to_mongodb_pivot,At Risk,AST-6005,Workstation,Finance IT,prod,High,FALSE,8.8,Finance Ops,CrowdStrike,asset_context
-Tenable Cloud,finance-mongo-prod,CRITICAL,endpoint_to_mongodb_pivot,At Risk,AST-6006,Database Cluster,Data Platform,prod,Critical,FALSE,8.9,Customer Finance Data,MongoDB,asset_context
-Tenable Cloud,billing-data-bucket,HIGH,s3_data_access_exfiltration,At Risk,AST-6007,S3 Bucket,Finance Engineering,prod,Critical,TRUE,8.6,Billing Data Storage,AWS,asset_context
-Tenable Cloud,okta-admin-portal,MEDIUM,identity_account_takeover,Monitored,AST-6008,SaaS Identity Portal,Identity Team,prod,High,TRUE,6.4,Auth Control Plane,Okta,asset_context
+﻿source,asset,severity,scenario,status,asset_id,asset_type,owner,environment,criticality,internet_exposed,vulnerability_score,business_function,platform,telemetry_type
+Tenable Cloud,workspace-admin-console,HIGH,identity_account_takeover,At Risk,AST-6001,SaaS Admin Console,Identity Team,prod,Critical,FALSE,8.1,Workforce Admin,Google Workspace,asset_context
+Tenable Cloud,lab-aws-account,HIGH,aws_iam_key_misuse,Monitored,AST-6002,AWS Account,Cloud Platform,prod,Critical,FALSE,7.4,Prod Control Plane,AWS,asset_context
+Tenable Cloud,workload-demo-cluster,CRITICAL,eks_secret_access_chain,At Risk,AST-6003,Kubernetes Cluster,Critical Service,prod,Critical,TRUE,9.2,Critical Service,AWS,asset_context
+Tenable Cloud,critical-service-db-secret,CRITICAL,eks_secret_access_chain,At Risk,AST-6004,Secret Store,Critical Service,prod,Critical,FALSE,9.0,Service Credentials,AWS,asset_context
+Tenable Cloud,workstation-lab-22,CRITICAL,endpoint_to_mongodb_pivot,At Risk,AST-6005,Workstation,Finance IT,prod,High,FALSE,8.8,Finance Ops,CrowdStrike,asset_context
+Tenable Cloud,records-mongo-lab,CRITICAL,endpoint_to_mongodb_pivot,At Risk,AST-6006,Database Cluster,Data Platform,prod,Critical,FALSE,8.9,Records Lab Data,MongoDB,asset_context
+Tenable Cloud,sensitive-reporting-bucket,HIGH,s3_data_access_exfiltration,At Risk,AST-6007,S3 Bucket,Finance Engineering,prod,Critical,TRUE,8.6,Billing Data Storage,AWS,asset_context
+Tenable Cloud,identity-admin-portal,MEDIUM,identity_account_takeover,Monitored,AST-6008,SaaS Identity Portal,Identity Team,prod,High,TRUE,6.4,Auth Control Plane,Okta,asset_context
+
+

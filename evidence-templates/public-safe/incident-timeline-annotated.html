@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Annotated Incident Timeline</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 1400px;
+      height: 900px;
+      overflow: hidden;
+      font-family: "Aptos", "Segoe UI", Arial, sans-serif;
+      color: #14202e;
+      background: #eef3f8;
+    }
+    .frame {
+      width: 1400px;
+      height: 900px;
+      padding: 42px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.92), rgba(244,247,251,0.86)),
+        linear-gradient(90deg, #a23d52 0 1.2%, transparent 1.2%);
+    }
+    .shell {
+      height: 816px;
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 26px;
+    }
+    .panel {
+      border: 1px solid #d5dde8;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 24px 52px rgba(20, 32, 46, 0.10);
+      overflow: hidden;
+    }
+    .hero {
+      padding: 28px 30px 22px;
+      background: linear-gradient(180deg, #ffffff, #f7fafc);
+      border-bottom: 1px solid #d5dde8;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: color-mix(in srgb, #a23d52 12%, white);
+      color: #a23d52;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    h1 {
+      margin: 18px 0 10px;
+      font-size: 44px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0;
+      color: #5d6a7a;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 18px;
+    }
+    .metric {
+      padding: 14px;
+      border: 1px solid #d5dde8;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+    .metric span {
+      display: block;
+      color: #5d6a7a;
+      font-size: 14px;
+    }
+    .metric strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 24px;
+      color: #14202e;
+    }
+    .flow {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border: 1px solid #d5dde8;
+      border-radius: 10px;
+      background: #ffffff;
+    }
+    .step b {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: #a23d52;
+      color: white;
+    }
+    .step span {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .table {
+      padding: 26px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 0.82fr 1fr 1.35fr;
+      gap: 10px;
+      min-height: 70px;
+    }
+    .row div {
+      display: flex;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid #d5dde8;
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+    .row div:first-child {
+      color: #a23d52;
+      font-weight: 800;
+      background: color-mix(in srgb, #a23d52 9%, white);
+    }
+    .footer {
+      padding: 18px 26px;
+      border-top: 1px solid #d5dde8;
+      color: #5d6a7a;
+      font-size: 15px;
+      background: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <div class="shell">
+      <section class="panel">
+        <div class="hero">
+          <span class="status">Timeline</span>
+          <h1>Annotated Incident Timeline</h1>
+          <p>A stitched view from first signal through containment decision using synthetic lab events.</p>
+        </div>
+        <div class="metrics">
+      <div class="metric">
+        <span>Events</span>
+        <strong>16</strong>
+      </div>
+    
+      <div class="metric">
+        <span>Incidents</span>
+        <strong>5</strong>
+      </div>
+    
+      <div class="metric">
+        <span>Closeout</span>
+        <strong>Mapped</strong>
+      </div>
+    </div>
+        <div class="flow">
+      <div class="step">
+        <b>01</b>
+        <span>First signal</span>
+      </div>
+    
+      <div class="step">
+        <b>02</b>
+        <span>Material event</span>
+      </div>
+    
+      <div class="step">
+        <b>03</b>
+        <span>Proof anchor</span>
+      </div>
+    
+      <div class="step">
+        <b>04</b>
+        <span>Response</span>
+      </div>
+    </div>
+      </section>
+      <section class="panel">
+        <div class="table">
+      <div class="row">
+        <div>08:02</div><div>MFA failures</div><div>Novel identity signal</div>
+      </div>
+    
+      <div class="row">
+        <div>08:21</div><div>Admin change</div><div>Privileged follow-on action</div>
+      </div>
+    
+      <div class="row">
+        <div>12:39</div><div>Policy attach</div><div>Cloud escalation threshold</div>
+      </div>
+    
+      <div class="row">
+        <div>15:05</div><div>Secret read</div><div>Runtime identity reached protected secret</div>
+      </div>
+    
+      <div class="row">
+        <div>02:05</div><div>DB auth</div><div>Endpoint path reached data store</div>
+      </div>
+    
+      <div class="row">
+        <div>10:33</div><div>Object read</div><div>Sensitive S3 access</div>
+      </div>
+    </div>
+        <div class="footer">Synthetic public-safe evidence visual. No private tenant names, company names, credentials, customer data, or secret values.</div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
