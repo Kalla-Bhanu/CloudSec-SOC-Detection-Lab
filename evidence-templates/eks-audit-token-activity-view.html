@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EKS Secret Access Evidence</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #16233a;
+      --muted: #62708a;
+      --line: #d8e0ec;
+      --danger: #b42318;
+      --danger-soft: #fff0ee;
+      --accent: #214e91;
+      --accent-soft: #eef4ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--ink);
+    }
+    .wrap {
+      width: 1400px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+    .banner {
+      background: linear-gradient(135deg, #173768 0%, #254a8f 65%, #2d65b8 100%);
+      color: #fff;
+      border-radius: 22px;
+      padding: 28px 30px;
+      box-shadow: 0 22px 42px rgba(22, 35, 58, 0.18);
+      margin-bottom: 24px;
+    }
+    .eyebrow {
+      display: inline-block;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      padding: 6px 10px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 38px;
+      line-height: 1.08;
+    }
+    .banner p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.86);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.35fr;
+      gap: 22px;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 18px 36px rgba(22, 35, 58, 0.08);
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+    .subtle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .facts {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .fact {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #fbfdff, #f4f8ff);
+    }
+    .fact .k {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .fact .v {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .timeline {
+      margin-top: 18px;
+      display: grid;
+      gap: 14px;
+    }
+    .event {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .event .time {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      padding-top: 4px;
+    }
+    .event .title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .event .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      margin-right: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+    }
+    .danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+    .callout {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #fff6da;
+      border: 1px solid #ebd492;
+      color: #6d5613;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="banner">
+      <div class="eyebrow">Phase 2D Curated Evidence</div>
+      <h1>EKS Audit and Secret Access Chain</h1>
+      <p>
+        This artifact reconstructs the <strong>eks_secret_access_chain</strong> scenario from the curated cloud activity dataset, giving Page 3 a non-placeholder Kubernetes-relevant evidence view even though the current AWS account has no live EKS clusters.
+      </p>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>Investigation Facts</h2>
+        <p class="subtle">Explain the principal, cluster, and downstream secret access before moving into the broader timeline.</p>
+        <div class="facts">
+          <div class="fact">
+            <div class="k">Workload Identity</div>
+            <div class="v">payments-api-sa</div>
+          </div>
+          <div class="fact">
+            <div class="k">Cluster</div>
+            <div class="v">eks-prod-cluster</div>
+          </div>
+          <div class="fact">
+            <div class="k">Secret Target</div>
+            <div class="v">payments-prod-secret</div>
+          </div>
+          <div class="fact">
+            <div class="k">Escalation State</div>
+            <div class="v">Escalated</div>
+          </div>
+        </div>
+        <div class="callout">
+          Presenter cue: emphasize that the danger is not just “an EKS event happened,” but that the same service account reached real secret material in a production payments path.
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Event Chain</h2>
+        <p class="subtle">These rows directly mirror the curated <code>cloud_activity.csv</code> evidence for the Kubernetes-to-secret sequence.</p>
+        <div class="timeline">
+          <div class="event">
+            <div class="time">15:01:00Z</div>
+            <div>
+              <div class="title">EKS audit event from workload identity</div>
+              <div class="meta">Event CLD-4010 • Source: EKS Audit • Kill chain: Execution</div>
+              <span class="badge">payments-api-sa</span>
+              <span class="badge danger">eks-prod-cluster</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="time">15:04:00Z</div>
+            <div>
+              <div class="title">AWS CloudTrail follow-on from same service account</div>
+              <div class="meta">Event CLD-4011 • Source: AWS CloudTrail • Kill chain: Credential Access</div>
+              <span class="badge">Account 111122223333</span>
+              <span class="badge">Correlated principal</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="time">15:05:00Z</div>
+            <div>
+              <div class="title">GetSecretValue against payments-prod-secret</div>
+              <div class="meta">Event CLD-4012 • Source: AWS CloudTrail • Kill chain: Credential Access</div>
+              <span class="badge danger">payments-prod-secret</span>
+              <span class="badge">Secret retrieval confirmed</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="time">15:06:00Z</div>
+            <div>
+              <div class="title">KMS-linked secret access continuation</div>
+              <div class="meta">Event CLD-4013 • Source: AWS CloudTrail • Kill chain: Credential Access</div>
+              <span class="badge danger">payments-prod-kms-key</span>
+              <span class="badge">Escalated</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

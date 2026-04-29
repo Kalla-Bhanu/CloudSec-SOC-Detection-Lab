@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrowdStrike Process Tree Evidence</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --ink: #172033;
+      --muted: #5f6b85;
+      --line: #d8e0ee;
+      --accent: #cf2e2e;
+      --accent-soft: #ffe8e8;
+      --tag: #eef3ff;
+      --tag-ink: #294a9c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2f9 0%, var(--bg) 100%);
+      color: var(--ink);
+    }
+    .wrap {
+      width: 1400px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+    .hero {
+      background: radial-gradient(circle at top left, #243b73, #10192d 68%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 28px 32px;
+      box-shadow: 0 22px 48px rgba(16, 25, 45, 0.24);
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 28px;
+      margin-bottom: 24px;
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 38px;
+      line-height: 1.1;
+    }
+    .hero p {
+      margin: 0;
+      color: rgba(255,255,255,0.86);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      align-content: start;
+    }
+    .metric {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .metric .label {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 8px;
+    }
+    .metric .value {
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.25fr;
+      gap: 20px;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 14px 28px rgba(20, 33, 61, 0.08);
+    }
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+    .subtle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .tree {
+      margin-top: 22px;
+      padding: 12px 0 0 8px;
+      position: relative;
+    }
+    .node {
+      position: relative;
+      padding-left: 26px;
+      margin-bottom: 20px;
+    }
+    .node:before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px var(--accent-soft);
+    }
+    .node:after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 17px;
+      width: 2px;
+      height: calc(100% + 10px);
+      background: var(--line);
+    }
+    .node:last-child:after { display: none; }
+    .node .title {
+      font-weight: 700;
+      font-size: 19px;
+      margin-bottom: 4px;
+    }
+    .node .meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .tag {
+      display: inline-block;
+      background: var(--tag);
+      color: var(--tag-ink);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .critical {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .callout {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #fff4d8;
+      border: 1px solid #f4d58d;
+      color: #6a5313;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Phase 2D Curated Evidence</div>
+        <h1>CrowdStrike Process Chain for Endpoint to MongoDB Pivot</h1>
+        <p>
+          This curated artifact turns the endpoint activity dataset into a readable process-tree style proof view for the
+          <strong>endpoint_to_mongodb_pivot</strong> scenario. It is intended to replace the missing live Falcon session with a non-placeholder
+          evidence panel anchored to the real curated incident rows in the implementation package.
+        </p>
+      </div>
+      <div class="metrics">
+        <div class="metric">
+          <div class="label">Host</div>
+          <div class="value">fin-ws-22</div>
+        </div>
+        <div class="metric">
+          <div class="label">Principal</div>
+          <div class="value">finance.analyst</div>
+        </div>
+        <div class="metric">
+          <div class="label">Critical Events</div>
+          <div class="value">5</div>
+        </div>
+        <div class="metric">
+          <div class="label">Escalation State</div>
+          <div class="value">Escalated</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>Process Tree Narrative</h2>
+        <div class="subtle">Use this view to explain how the same host and identity progress from execution into collection against a financial data path.</div>
+        <div class="tree">
+          <div class="node">
+            <div class="title">powershell.exe launched from interactive analyst session</div>
+            <div class="meta">2026-04-09T01:56:00Z • Event END-5001 • Execution</div>
+            <span class="tag">CrowdStrike</span>
+            <span class="tag">Critical</span>
+          </div>
+          <div class="node">
+            <div class="title">Credential material accessed from the same host context</div>
+            <div class="meta">2026-04-09T01:58:00Z • Event END-5002 • Credential Access</div>
+            <span class="tag">Identity reuse risk</span>
+          </div>
+          <div class="node">
+            <div class="title">Outbound pivot toward finance-mongo-prod path</div>
+            <div class="meta">2026-04-09T02:05:00Z • Event END-5003 • Lateral Movement</div>
+            <span class="tag">Host to database bridge</span>
+          </div>
+          <div class="node">
+            <div class="title">Collection activity observed before containment recommendation</div>
+            <div class="meta">2026-04-09T02:12:00Z • Event END-5004 • Collection</div>
+            <span class="tag">Material data-loss risk</span>
+          </div>
+          <div class="node">
+            <div class="title">Containment decision reached on the combined endpoint and data-store chain</div>
+            <div class="meta">2026-04-09T02:19:00Z • Event END-5005 • Containment</div>
+            <span class="tag">Escalation threshold met</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Event Proof Rows</h2>
+        <div class="subtle">These rows map directly to the curated endpoint activity dataset and provide the event-proof artifact required by Phase 2D.</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Event ID</th>
+              <th>Kill Chain Stage</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2026-04-09T01:56:00Z</td>
+              <td>END-5001</td>
+              <td>Execution</td>
+              <td class="critical">Escalated</td>
+            </tr>
+            <tr>
+              <td>2026-04-09T01:58:00Z</td>
+              <td>END-5002</td>
+              <td>Credential Access</td>
+              <td class="critical">Escalated</td>
+            </tr>
+            <tr>
+              <td>2026-04-09T02:05:00Z</td>
+              <td>END-5003</td>
+              <td>Lateral Movement</td>
+              <td class="critical">Escalated</td>
+            </tr>
+            <tr>
+              <td>2026-04-09T02:12:00Z</td>
+              <td>END-5004</td>
+              <td>Collection</td>
+              <td class="critical">Escalated</td>
+            </tr>
+            <tr>
+              <td>2026-04-09T02:19:00Z</td>
+              <td>END-5005</td>
+              <td>Containment</td>
+              <td class="critical">Escalated</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          Presenter cue: explain that the database risk becomes clear only when the endpoint chain and the MongoDB activity are narrated as one incident rather than two separate investigations.
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

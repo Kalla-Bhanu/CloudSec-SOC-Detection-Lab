@@ -1,0 +1,197 @@
+import csv
+import json
+import os
+import urllib.request
+from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+import boto3
+
+
+DD_SITE = os.environ.get("DD_SITE", "us5.datadoghq.com")
+DD_API_SECRET_NAME = os.environ.get(
+    "DD_API_SECRET_NAME", "cloudsec-rebuild/datadog/api-key"
+)
+SERVICE_NAME = "cloudsec-detection-test-harness"
+HOSTNAME = "cloudsec-test-harness"
+BASE_DIR = Path(__file__).resolve().parent
+BATCH_SIZE = 50
+
+SCENARIO_SIMULATION = {
+    "identity_account_takeover": "okta-gws-identity-chain",
+    "endpoint_to_mongodb_pivot": "crowdstrike-mongodb-pivot",
+    "asset_context_enrichment": "tenable-asset-context",
+}
+
+DATASET_MAP = [
+    ("identity_events.csv", "identity_account_takeover"),
+    ("endpoint_activity.csv", "endpoint_to_mongodb_pivot"),
+    ("incident_timeline.csv", None),
+    ("asset_inventory.csv", "asset_context_enrichment"),
+]
+
+
+def _load_secret(secret_name):
+    client = boto3.client("secretsmanager")
+    response = client.get_secret_value(SecretId=secret_name)
+    secret_string = response.get("SecretString", "")
+    try:
+        parsed = json.loads(secret_string)
+        if isinstance(parsed, dict):
+            for key in ("api_key", "DD_API_KEY", "key", "value"):
+                if key in parsed and parsed[key]:
+                    return parsed[key]
+    except json.JSONDecodeError:
+        pass
+    return secret_string.strip()
+
+
+def _read_csv_rows():
+    rows = []
+    for filename, fallback_scenario in DATASET_MAP:
+        file_path = BASE_DIR / filename
+        if not file_path.exists():
+            continue
+        with file_path.open("r", encoding="utf-8-sig", newline="") as handle:
+            reader = csv.DictReader(handle)
+            for row in reader:
+                scenario = row.get("scenario") or fallback_scenario or "unclassified"
+                normalized = {
+                    "dataset_file": filename,
+                    "scenario": scenario,
+                    "original_source": row.get("source", "Unknown"),
+                    "row": row,
+                }
+                rows.append(normalized)
+    return rows
+
+
+def _build_message(item):
+    row = item["row"]
+    if row.get("event_summary"):
+        summary = row["event_summary"]
+    elif row.get("event_type"):
+        summary = row["event_type"]
+    elif row.get("detection_name"):
+        summary = row["detection_name"]
+    elif row.get("asset_type"):
+        summary = f"Asset context: {row.get('asset_type', 'unknown')}"
+    else:
+        summary = "Synthetic detection validation event"
+    return (
+        f"Synthetic test harness event for scenario {item['scenario']} "
+        f"simulating {item['original_source']}: {summary}"
+    )
+
+
+def _build_event(item, replay_id):
+    row = item["row"]
+    scenario = item["scenario"]
+    original_source = item["original_source"]
+    simulation_name = SCENARIO_SIMULATION.get(scenario, "generic-detection-validation")
+    event_time = datetime.now(timezone.utc).isoformat()
+    tags = [
+        "source:test-harness",
+        "synthetic:true",
+        "purpose:detection-rule-validation",
+        f"scenario:{scenario}",
+        f"simulates:{simulation_name}",
+        f"simulated_source:{str(original_source).replace(' ', '_')}",
+        f"dataset:{item['dataset_file']}",
+        f"replay_id:{replay_id}",
+    ]
+    payload = {
+        "message": _build_message(item),
+        "ddsource": "test-harness",
+        "service": SERVICE_NAME,
+        "hostname": HOSTNAME,
+        "ddtags": ",".join(tags),
+        "synthetic": "true",
+        "purpose": "detection-rule-validation",
+        "replay_id": replay_id,
+        "scenario": scenario,
+        "simulates": simulation_name,
+        "simulated_source": original_source,
+        "dataset_file": item["dataset_file"],
+        "event_time": event_time,
+        "original_timestamp": row.get("timestamp"),
+        "severity": row.get("severity"),
+        "status": row.get("status"),
+        "platform": row.get("platform"),
+        "environment": row.get("environment"),
+        "telemetry_type": row.get("telemetry_type"),
+        "row": row,
+    }
+    return payload
+
+
+def _chunk(items, size):
+    for index in range(0, len(items), size):
+        yield items[index : index + size]
+
+
+def _post_to_datadog(api_key, events):
+    endpoint = f"https://http-intake.logs.{DD_SITE}/api/v2/logs"
+    headers = {
+        "Content-Type": "application/json",
+        "DD-API-KEY": api_key,
+    }
+    statuses = []
+    for batch in _chunk(events, BATCH_SIZE):
+        request = urllib.request.Request(
+            endpoint,
+            data=json.dumps(batch).encode("utf-8"),
+            headers=headers,
+            method="POST",
+        )
+        with urllib.request.urlopen(request, timeout=30) as response:
+            statuses.append(response.status)
+    return statuses
+
+
+def _select_rows(all_rows, scenario, limit):
+    if scenario in (None, "", "all"):
+        selected = list(all_rows)
+    else:
+        selected = [row for row in all_rows if row["scenario"] == scenario]
+    if limit:
+        selected = selected[:limit]
+    return selected
+
+
+def lambda_handler(event, context):
+    event = event or {}
+    scenario = event.get("scenario", "all")
+    limit = int(event.get("limit", 25))
+    dry_run = bool(event.get("dry_run", False))
+    replay_id = event.get("replay_id") or datetime.now(timezone.utc).strftime(
+        "replay-%Y%m%dT%H%M%SZ"
+    )
+
+    all_rows = _read_csv_rows()
+    selected = _select_rows(all_rows, scenario, limit)
+    events = [_build_event(item, replay_id) for item in selected]
+
+    summary = defaultdict(int)
+    for item in selected:
+        summary[item["scenario"]] += 1
+
+    if dry_run:
+        return {
+            "status": "dry-run",
+            "replay_id": replay_id,
+            "selected_events": len(events),
+            "scenario_counts": dict(summary),
+        }
+
+    api_key = _load_secret(DD_API_SECRET_NAME)
+    statuses = _post_to_datadog(api_key, events)
+    return {
+        "status": "posted",
+        "replay_id": replay_id,
+        "selected_events": len(events),
+        "scenario_counts": dict(summary),
+        "datadog_statuses": statuses,
+        "scenarios_present": sorted({item["scenario"] for item in selected}),
+    }

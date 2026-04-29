@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escalation Packet Outline</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Cambria, Georgia, serif;
+      background: linear-gradient(180deg, #ece7dc, #d9cfbf);
+      color: #202427;
+    }
+    .wrap {
+      width: 1360px;
+      min-height: 860px;
+      margin: 0 auto;
+      padding: 38px;
+    }
+    .header {
+      margin-bottom: 24px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 50px;
+      letter-spacing: -0.03em;
+    }
+    .sub {
+      margin: 0;
+      color: #59646d;
+      font-size: 20px;
+      line-height: 1.4;
+      max-width: 920px;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card {
+      min-height: 220px;
+      background: #fffdf8;
+      border: 1px solid #cdbda8;
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: 0 14px 24px rgba(42, 38, 32, 0.08);
+    }
+    .tone-1 { background: linear-gradient(180deg, #fffdf8, #f7f1e7); }
+    .tone-2 { background: linear-gradient(180deg, #f8fbfc, #edf4f7); }
+    .tone-3 { background: linear-gradient(180deg, #fff9f5, #f8ebe3); }
+    .kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #315166;
+      background: rgba(49, 81, 102, 0.1);
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+    }
+    p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.48;
+      color: #52606b;
+    }
+    .footer {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      border-radius: 22px;
+      background: #1f3542;
+      color: #eef4f7;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Escalation Packet Outline</h1>
+      <p class="sub">This is the minimum structure the presenter should be able to narrate on Page 4 and Page 5 without reopening any design decisions during a live walkthrough.</p>
+    </div>
+
+    <div class="board">
+      <section class="card tone-1">
+        <span class="kicker">Section 1</span>
+        <h2>Incident Summary</h2>
+        <p>Name the scenario, the current severity, the affected entity, and why the issue is still active rather than merely interesting.</p>
+      </section>
+      <section class="card tone-2">
+        <span class="kicker">Section 2</span>
+        <h2>Proof Chain</h2>
+        <p>List the one strongest event, the one strongest rule or query, and the one cross-source link that turns separate signals into one incident.</p>
+      </section>
+      <section class="card tone-3">
+        <span class="kicker">Section 3</span>
+        <h2>Entities in Scope</h2>
+        <p>Show the user, asset, secret, database, or bucket that matters, plus the one entity relationship that most changes urgency.</p>
+      </section>
+      <section class="card tone-2">
+        <span class="kicker">Section 4</span>
+        <h2>Business Impact</h2>
+        <p>Translate the telemetry into operational risk: privilege expansion, production secret exposure, sensitive data access, or customer-impacting service disruption.</p>
+      </section>
+      <section class="card tone-3">
+        <span class="kicker">Section 5</span>
+        <h2>Immediate Actions</h2>
+        <p>Capture the first containment move, the next proof target, and which team needs to act if the escalation is accepted.</p>
+      </section>
+      <section class="card tone-1">
+        <span class="kicker">Section 6</span>
+        <h2>Decision Ask</h2>
+        <p>End with a clean recommendation: monitor, contain, escalate, or invoke incident response. Avoid leaving the packet without an owner and timeframe.</p>
+      </section>
+    </div>
+
+    <div class="footer">
+      <span>Escalation quality comes from continuity, not from having the most screenshots.</span>
+      <span>Minimum live standard: one event proof + one rule/query proof + one operator decision.</span>
+    </div>
+  </div>
+</body>
+</html>

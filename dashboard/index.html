@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudSec SOC Detection Lab</title>
+  <meta name="description" content="Technical review dashboard for a cloud security detection lab.">
+  <meta name="theme-color" content="#eef2f7">
+  <link rel="stylesheet" href="./styles.css?v=20260412ciso">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-header-copy">
+        <span class="app-kicker">CloudSec / SOC Detection Lab</span>
+        <h1>Security Operations Detection Lab</h1>
+        <p>
+          A technical review surface for implemented detections, proof artifacts, environment state, and live demonstration readiness.
+        </p>
+      </div>
+      <div class="app-actions">
+        <button class="button secondary" id="prev-stage" type="button">Previous</button>
+        <button class="button primary" id="next-stage" type="button">Next</button>
+      </div>
+    </header>
+
+    <section class="summary-strip" id="summary-strip"></section>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <span class="app-kicker">Navigation</span>
+          <strong id="stage-progress-label">Stage 1 of 5</strong>
+        </div>
+        <nav class="stage-nav" id="stage-rail"></nav>
+      </aside>
+
+      <main class="content">
+        <section class="content-header">
+          <div>
+            <span class="stage-index" id="stage-kicker">Stage 01</span>
+            <h2 id="stage-title">System Scope</h2>
+            <p id="stage-summary">Loading stage summary...</p>
+          </div>
+        </section>
+
+        <section class="content-body" id="stage-body"></section>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="lightbox" id="lightbox">
+    <form method="dialog" class="lightbox-shell">
+      <button class="button secondary lightbox-close" type="submit">Close</button>
+      <img id="lightbox-image" alt="">
+      <div class="lightbox-copy">
+        <strong id="lightbox-title"></strong>
+        <p id="lightbox-description"></p>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="./dashboard-data.js?v=20260425offline"></script>
+  <script src="./dashboard-render.js?v=20260425offline"></script>
+  <script src="./app.js?v=20260425offline"></script>
+</body>
+</html>

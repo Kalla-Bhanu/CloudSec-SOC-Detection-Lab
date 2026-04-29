@@ -1,0 +1,34 @@
+# Runtime and local logs
+*.log
+*.tmp
+*.out
+
+# Secrets and local environment
+.env
+.env.*
+*.pem
+*.key
+*.crt
+
+# Generated packages and binaries
+*.zip
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Deck exports and private prep artifacts
+*.pptx
+*.pdf
+*.bak
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node/Python local artifacts
+node_modules/
+__pycache__/
+*.pyc

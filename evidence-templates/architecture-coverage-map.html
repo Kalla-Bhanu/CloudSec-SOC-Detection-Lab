@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture Coverage Map</title>
+  <style>
+    :root {
+      --bg: #f5efe5;
+      --paper: #fffaf3;
+      --ink: #192126;
+      --muted: #5d6a73;
+      --line: #d6c9b7;
+      --primary: #234a64;
+      --support: #87623d;
+      --context: #47755a;
+      --accent: #d46f4d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(212, 111, 77, 0.15), transparent 26%),
+        linear-gradient(135deg, #f7f0e7, #efe2d1);
+      color: var(--ink);
+    }
+    .frame {
+      width: 1400px;
+      min-height: 900px;
+      margin: 0 auto;
+      padding: 42px;
+    }
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 48px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .subtitle {
+      width: 520px;
+      font-size: 20px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .legend {
+      display: flex;
+      gap: 14px;
+      margin-top: 16px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.65);
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+    .panel {
+      background: rgba(255, 250, 243, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(37, 33, 26, 0.07);
+    }
+    .scenarios {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+    }
+    .scenario {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      background: #fff;
+      min-height: 156px;
+    }
+    .scenario strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .scenario p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid transparent;
+    }
+    .tag.primary { color: var(--primary); background: rgba(35, 74, 100, 0.1); border-color: rgba(35, 74, 100, 0.2); }
+    .tag.support { color: var(--support); background: rgba(135, 98, 61, 0.12); border-color: rgba(135, 98, 61, 0.2); }
+    .tag.context { color: var(--context); background: rgba(71, 117, 90, 0.12); border-color: rgba(71, 117, 90, 0.2); }
+    .map-card {
+      position: relative;
+      height: 100%;
+      min-height: 560px;
+      overflow: hidden;
+    }
+    .center {
+      position: absolute;
+      inset: 160px 120px auto 120px;
+      padding: 26px 30px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #203445, #2e516b);
+      color: #fff8f0;
+      text-align: center;
+      box-shadow: 0 18px 34px rgba(24, 35, 48, 0.25);
+    }
+    .center h2 {
+      margin: 0 0 10px;
+      font-size: 34px;
+    }
+    .center p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.45;
+      color: rgba(255,248,240,0.86);
+    }
+    .node {
+      position: absolute;
+      width: 180px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 24px rgba(25, 33, 38, 0.07);
+    }
+    .node b {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    .node span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .line {
+      position: absolute;
+      background: var(--line);
+      transform-origin: left center;
+      height: 3px;
+      border-radius: 999px;
+      opacity: 0.9;
+    }
+    .footer {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="hero">
+      <div>
+        <h1>Architecture Coverage Map</h1>
+        <div class="legend">
+          <span class="chip"><span class="dot" style="background:#234a64"></span>Primary evidence</span>
+          <span class="chip"><span class="dot" style="background:#87623d"></span>Supporting evidence</span>
+          <span class="chip"><span class="dot" style="background:#47755a"></span>Context and enrichment</span>
+        </div>
+      </div>
+      <div class="subtitle">This visual shows which platforms anchor the five analyst stories and which platforms strengthen confidence, coverage, or prioritization around them.</div>
+    </div>
+
+    <div class="layout">
+      <section class="panel">
+        <strong style="font-size:28px">Scenario Coverage</strong>
+        <div class="scenarios">
+          <article class="scenario">
+            <strong>Identity Account Takeover</strong>
+            <p>Novel Okta login behavior followed by privileged Google Workspace actions.</p>
+            <div class="tags">
+              <span class="tag primary">Okta</span>
+              <span class="tag primary">Google Workspace</span>
+              <span class="tag support">Datadog</span>
+            </div>
+          </article>
+          <article class="scenario">
+            <strong>AWS IAM Key Misuse</strong>
+            <p>CloudTrail activity turns an unfamiliar access key into privilege-changing API behavior.</p>
+            <div class="tags">
+              <span class="tag primary">AWS CloudTrail</span>
+              <span class="tag support">Datadog</span>
+              <span class="tag context">Tenable</span>
+            </div>
+          </article>
+          <article class="scenario">
+            <strong>EKS Secret Access Chain</strong>
+            <p>Unexpected workload behavior lines up with downstream secret retrieval and key use.</p>
+            <div class="tags">
+              <span class="tag primary">EKS Audit</span>
+              <span class="tag primary">AWS Secrets Manager</span>
+              <span class="tag primary">AWS KMS</span>
+            </div>
+          </article>
+          <article class="scenario">
+            <strong>Endpoint to MongoDB Pivot</strong>
+            <p>Endpoint execution becomes a database access story once the actor reaches MongoDB.</p>
+            <div class="tags">
+              <span class="tag primary">CrowdStrike</span>
+              <span class="tag support">MongoDB</span>
+              <span class="tag support">Datadog</span>
+            </div>
+          </article>
+          <article class="scenario">
+            <strong>S3 Data Access Exfiltration</strong>
+            <p>Sensitive bucket activity is escalated using source evidence plus detection reinforcement.</p>
+            <div class="tags">
+              <span class="tag primary">AWS S3</span>
+              <span class="tag primary">AWS CloudTrail</span>
+              <span class="tag support">Datadog</span>
+            </div>
+          </article>
+        </div>
+        <div class="footer">Page 2 proof target: telemetry trust. Page 3 proof target: scenario quality. Page 5 proof target: stitched incident continuity.</div>
+      </section>
+
+      <section class="panel map-card">
+        <div class="line" style="left: 258px; top: 142px; width: 180px; transform: rotate(24deg);"></div>
+        <div class="line" style="left: 252px; top: 258px; width: 150px; transform: rotate(4deg);"></div>
+        <div class="line" style="left: 250px; top: 396px; width: 170px; transform: rotate(-21deg);"></div>
+        <div class="line" style="left: 640px; top: 148px; width: 160px; transform: rotate(156deg);"></div>
+        <div class="line" style="left: 680px; top: 282px; width: 140px; transform: rotate(180deg);"></div>
+        <div class="line" style="left: 640px; top: 414px; width: 165px; transform: rotate(-155deg);"></div>
+
+        <div class="node" style="left: 40px; top: 72px;">
+          <b>Okta</b>
+          <span>Identity entry point</span>
+        </div>
+        <div class="node" style="left: 36px; top: 228px;">
+          <b>AWS</b>
+          <span>Control plane + S3 proof</span>
+        </div>
+        <div class="node" style="left: 40px; top: 390px;">
+          <b>EKS / KMS</b>
+          <span>Workload and secret chain</span>
+        </div>
+        <div class="node" style="right: 36px; top: 78px;">
+          <b>Google Workspace</b>
+          <span>Privileged SaaS follow-on</span>
+        </div>
+        <div class="node" style="right: 36px; top: 250px;">
+          <b>Datadog</b>
+          <span>Cross-source detection reinforcement</span>
+        </div>
+        <div class="node" style="right: 36px; top: 418px;">
+          <b>MongoDB / Tenable</b>
+          <span>Data-store context and prioritization</span>
+        </div>
+
+        <div class="center">
+          <h2>Five Analyst Scenarios</h2>
+          <p>Each story must move from alert confidence to analyst action without losing the evidence chain that justifies escalation, containment, or risk reduction.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
