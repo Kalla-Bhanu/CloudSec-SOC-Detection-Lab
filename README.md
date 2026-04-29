@@ -35,6 +35,7 @@ tools/                Utility scripts for generated public-safe assets
 
 ## Key Artifacts
 
+- Live dashboard: `https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/`
 - Dashboard: `dashboard/index.html`
 - Flowcharts: `docs/architecture-and-flowcharts.md`
 - Demo walkthrough: `docs/demo-walkthrough.md`
@@ -43,6 +44,16 @@ tools/                Utility scripts for generated public-safe assets
 - Presentation deck: `docs/deck/cloudsec-soc-detection-lab.pptx`
 
 ## Run The Dashboard Locally
+
+The dashboard is designed to be hosted with GitHub Pages at:
+
+```text
+https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/
+```
+
+If GitHub Pages is not enabled yet, enable it from repository settings using `GitHub Actions` as the source. The workflow in `.github/workflows/pages.yml` publishes the `dashboard/` folder.
+
+To run the same dashboard locally:
 
 ```powershell
 cd .\dashboard
