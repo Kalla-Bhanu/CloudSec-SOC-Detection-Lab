@@ -1,6 +1,6 @@
 # Scenario Proof Map
 
-This map makes the public proof requirements explicit so the package can be validated without private screenshots or presenter-only context.
+This map makes the public proof requirements explicit so the package can be validated without environment-specific screenshots or presenter-only context.
 
 | Scenario | Event Or Log Proof | Rule Or Query Proof | Response Artifact |
 |---|---|---|---|

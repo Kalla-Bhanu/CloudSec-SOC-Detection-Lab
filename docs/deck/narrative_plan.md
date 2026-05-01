@@ -1,6 +1,6 @@
 # CloudSec SOC Detection Lab Deck Plan
 
-Audience: security engineering reviewers, SOC leads, cloud security interviewers, and technical recruiters who need to see detection-engineering judgment without private customer or company details.
+Audience: security engineering reviewers, SOC leads, cloud security reviewers, and technical recruiters who need to see detection-engineering judgment without private organization or company details.
 
 Objective: present the completed public-safe SOC detection lab as a coherent working model: scope, architecture, data, detection scenarios, evidence, harness validation, triage workflow, dashboard, and demo readiness.
 

@@ -99,7 +99,7 @@ flowchart LR
   G --> H[Write escalation packet]
 
   C --> I[Public-safe artifact only]
-  I --> J[No private screenshots or tenant identifiers]
+  I --> J[No environment-specific screenshots or tenant identifiers]
 ```
 
 ## Demo Run Order
@@ -133,7 +133,7 @@ sequenceDiagram
 ## Sanitization Standard
 
 - Use placeholder actors such as `admin.user`, `app-runtime-sa`, and `analyst.user`.
-- Use placeholder cloud account IDs such as `123456789012`.
+- Use placeholder cloud account IDs such as `EXAMPLE_ACCOUNT`.
 - Use placeholder resource names such as `critical-service/db`, `records-mongo-lab`, and `sensitive-reporting-bucket`.
-- Do not include private company names, tenant screenshots, real credentials, secret values, customer data, or internal prep notes.
+- Do not include private company names, tenant-specific screenshots, real credentials, secret values, private user data, or internal prep notes.
 - Keep synthetic replay labeled with `source:test-harness` and `synthetic:true`.

@@ -111,7 +111,7 @@ Recommended backup visuals:
 - `The synthetic replay is real tenant telemetry.`
 - `The dashboard is streaming directly from every vendor.`
 - `The support panels prove live endpoint or exposure tenant coverage.`
-- `The public deck includes private screenshots or real credentials.`
+- `The public deck includes environment-specific screenshots or real credentials.`
 
 ## Say Instead
 

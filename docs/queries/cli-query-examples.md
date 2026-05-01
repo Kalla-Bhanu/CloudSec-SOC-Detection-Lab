@@ -3,7 +3,7 @@
 ## AWS IAM misuse
 
 ```bash
-aws cloudtrail lookup-events --lookup-attributes AttributeKey=AccessKeyId,AttributeValue=AKIAIOSFODNN7EXAMPLE --max-results 10
+aws cloudtrail lookup-events --lookup-attributes AttributeKey=AccessKeyId,AttributeValue=EXAMPLE_ACCESS_KEY_ID --max-results 10
 ```
 
 Interpretation: Use this to confirm whether the same key moved from normal automation into unusual IAM discovery and privilege-change actions.

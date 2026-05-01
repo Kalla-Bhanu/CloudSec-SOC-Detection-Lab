@@ -2,13 +2,13 @@
 
 An AWS-first SOC detection engineering lab that shows how to design, validate, explain, and present five common security monitoring scenarios across cloud, identity, runtime, endpoint, and data-access surfaces.
 
-This is the public-safe portfolio version. It uses synthetic datasets, sanitized evidence visuals, lab-safe harness code, and public documentation only. It does not include private company names, tenant identifiers, customer data, real credentials, secret values, private prep notes, or live tenant screenshots.
+This is the public-safe portfolio version. It uses synthetic datasets, sanitized evidence visuals, lab-safe harness code, and public documentation only. It does not include private company names, tenant identifiers, private user data, real credentials, secret values, private prep notes, or production screenshots.
 
 ## What This Project Shows
 
 - A dashboard-first SOC readout for analyst and leadership review.
 - Five detection scenarios mapped to triage, query pivots, proof anchors, and response decisions.
-- Public-safe evidence visuals that replace private screenshots.
+- Public-safe evidence visuals that replace environment-specific screenshots.
 - A Lambda-based synthetic event replay harness.
 - Datadog log and monitor validation patterns using `source:test-harness` and `synthetic:true`.
 - AWS investigation context around CloudTrail, IAM, STS, S3, Secrets Manager, EKS, and KMS.
@@ -83,10 +83,10 @@ The intent is not to claim production coverage. The intent is to show the detect
 This repository is intentionally sanitized:
 
 - No real company name.
-- No real customer, employee, or tenant data.
+- No real private user, employee, or tenant data.
 - No production credentials.
 - No private prep notes.
-- No live tenant screenshots.
+- No production screenshots.
 - No secret values.
 - No binary exports from private preparation material.
 

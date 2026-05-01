@@ -99,8 +99,8 @@ const assets = [
     status: "Context",
     metrics: [["Actor", "admin.user"], ["MFA", "Failed x2"], ["Follow-on", "Admin"]],
     rows: [
-      ["08:02", "mfa.challenge", "Failure from TEST-NET source"],
-      ["08:04", "mfa.challenge", "Second failure on same session"],
+      ["08:02", "mfa.verify", "Failure from TEST-NET source"],
+      ["08:04", "mfa.verify", "Second failure on same session"],
       ["08:09", "user.authentication.sso", "Success after failures"],
       ["08:21", "admin.role.update", "Privileged action within window"],
       ["08:24", "group.member.add", "Admin group touched"]
@@ -116,7 +116,7 @@ const assets = [
     metrics: [["Actor", "admin.user"], ["Target", "admin group"], ["Window", "15 min"]],
     rows: [
       ["08:21", "admin_role_granted", "Admin capability added"],
-      ["08:24", "group_membership_changed", "Billing admins touched"],
+      ["08:24", "group_membership_changed", "Privileged group updated"],
       ["08:27", "audit_review_started", "Analyst opened case"],
       ["08:31", "session_revoked", "Containment step queued"]
     ],
@@ -128,7 +128,7 @@ const assets = [
     subtitle: "First-seen cloud credential path moves from discovery into privilege-impacting API activity.",
     accent: "#2f6fdd",
     status: "Validated",
-    metrics: [["Access key", "AKIA...0000"], ["Account", "123456789012"], ["Severity", "High"]],
+    metrics: [["Access key", "EXAMPLE_ACCESS_KEY_ID"], ["Account", "EXAMPLE_ACCOUNT"], ["Severity", "High"]],
     rows: [
       ["12:31", "ListUsers", "Discovery from first-seen source"],
       ["12:33", "GetAccountAuthorizationDetails", "Authorization inventory"],
@@ -146,8 +146,8 @@ const assets = [
     metrics: [["Bucket", "sensitive-reporting"], ["Objects", "2"], ["Status", "Review"]],
     rows: [
       ["10:28", "ListBucket", "Prefix enumerated"],
-      ["10:31", "GetObject", "reports/q2/accounting-summary.csv"],
-      ["10:33", "GetObject", "reports/q2/payment-summary.csv"],
+      ["10:31", "GetObject", "reports/q2/operations-summary.csv"],
+      ["10:33", "GetObject", "reports/q2/report-summary.csv"],
       ["10:34", "Alert", "Volume and novelty threshold crossed"]
     ],
     steps: ["List", "Read", "Correlate", "Constrain"]
@@ -498,7 +498,7 @@ function renderHtml(asset) {
       </section>
       <section class="panel">
         <div class="table">${rows}</div>
-        <div class="footer">Synthetic public-safe evidence visual. No private tenant names, company names, credentials, customer data, or secret values.</div>
+        <div class="footer">Synthetic public-safe evidence visual. No private tenant names, company names, credentials, private user data, or secret values.</div>
       </section>
     </div>
   </main>

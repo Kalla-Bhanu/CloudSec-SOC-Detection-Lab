@@ -2,7 +2,7 @@
 param(
     [string]$Region = "us-east-1",
     [string]$Site = "us5.datadoghq.com",
-    [string]$ApiSecretName = "cloudsec-rebuild/datadog/api-key",
+    [string]$ApiSecretName = "EXAMPLE_DATADOG_SECRET_NAME",
     [string]$AppSecretName = "cloudsec-rebuild/datadog/app-key"
 )
 

@@ -14,10 +14,10 @@
 ## Supporting Build Notes
 
 - The website dashboard is the primary demo surface.
-- The dashboard is intentionally public-safe and does not rely on private screenshots.
+- The dashboard is intentionally public-safe and does not rely on environment-specific screenshots.
 - Evidence visuals are generated from repo-owned templates and stored in `dashboard/assets/evidence/`.
 - The harness path is synthetic validation, not a vendor-native integration rebuild.
-- Context surfaces and support panels are useful for the story, but they are not overclaimed as live tenant feeds.
+- Context surfaces and support panels are useful for the story, but they are not overclaimed as production feeds.
 
 ## Execution Cautions
 
@@ -25,7 +25,7 @@
 - Use audience-facing browser view, not editor surfaces, during the demo.
 - Do not overclaim endpoint, exposure, identity, workspace, or database context as live Datadog integrations.
 - Keep `source:test-harness` and `synthetic:true` visible when discussing replay validation.
-- Do not show or describe private company names, tenant identifiers, credentials, secret values, customer data, or live tenant screenshots.
+- Do not show or describe private company names, tenant identifiers, credentials, secret values, private user data, or production screenshots.
 
 ## Delivery Package Cross-Check
 

@@ -3,7 +3,7 @@ param(
     [string]$Region = "us-east-1",
     [string]$FunctionName = "cloudsec-detection-test-harness",
     [string]$RoleName = "cloudsec-detection-test-harness-role",
-    [string]$DatadogApiSecretName = "cloudsec-rebuild/datadog/api-key",
+    [string]$DatadogApiSecretName = "EXAMPLE_DATADOG_SECRET_NAME",
     [string]$DatadogSite = "us5.datadoghq.com"
 )
 

@@ -37,7 +37,7 @@ const STAGES = [
 const APP_DATA = {
   overviewStats: [
     { label: "Scenario coverage", value: "5/5", note: "Every public scenario has trigger, proof, query, and response logic" },
-    { label: "Evidence assets", value: "18", note: "Repo-owned sanitized visuals replace private screenshots" },
+    { label: "Evidence assets", value: "18", note: "Repo-owned sanitized visuals replace environment-specific screenshots" },
     { label: "Validated surfaces", value: "7", note: "AWS, Datadog, runtime, and synthetic replay are represented clearly" },
     { label: "Delivery state", value: "Complete", note: "Dashboard, datasets, harness, flowcharts, docs, and deck align" }
   ],
@@ -78,7 +78,7 @@ const APP_DATA = {
     "Presentation deck aligned to the same technical story"
   ],
   packageCrossCheck: [
-    "Review flow matches the submitted public scope",
+    "Review flow matches the public lab scope",
     "Evidence archive is mapped by platform and use case",
     "Detection logic is tied to the five defined scenarios",
     "Controlled replay is separated from vendor-native integration claims"
@@ -218,11 +218,11 @@ const APP_DATA = {
     }
   ],
   guardrails: [
-    "No real company name, tenant name, account ID, customer data, credential, or secret value is included.",
+    "No real company name, tenant name, account ID, private user data, credential, or secret value is included.",
     "No synthetic incident rows should be presented as real tenant telemetry.",
     "Any replayed content must stay visibly labeled as source:test-harness and synthetic:true.",
     "Context panels are not vendor-native integration claims.",
-    "Endpoint and exposure panels are supporting evidence, not live tenant incident views.",
+    "Endpoint and exposure panels are supporting evidence, not production incident views.",
     "The public repo demonstrates detection-engineering flow, not production coverage."
   ],
   recruiterNotes: [
@@ -467,7 +467,7 @@ const APP_DATA = {
         "CLI example for IAM misuse investigation"
       ],
       image: evidenceImage("aws-cloudtrail-key-misuse-view"),
-      query: "aws cloudtrail lookup-events --lookup-attributes AttributeKey=AccessKeyId,AttributeValue=AKIAEXAMPLE000000 --max-results 10",
+      query: "aws cloudtrail lookup-events --lookup-attributes AttributeKey=AccessKeyId,AttributeValue=EXAMPLE_ACCESS_KEY_ID --max-results 10",
       operatorJudgment: "The shift from enumeration into privilege or secret access is what turns odd cloud activity into a true business-risk incident.",
       response: "Disable or constrain the key, diff IAM changes, rotate touched secrets, and scope adjacent roles before closing."
     },
@@ -557,7 +557,7 @@ const APP_DATA = {
       "Keep source:test-harness visible when showing synthetic replay",
       "Refresh evidence visuals only if a new public-safe capture improves the story",
       "Use the harness for safe replay instead of claiming unavailable vendor-native feeds",
-      "Remove any private screenshots, tenant names, or secret values before publishing"
+      "Remove any environment-specific screenshots, tenant names, or secret values before publishing"
     ],
     backups: [
       "okta-system-log-view.png",

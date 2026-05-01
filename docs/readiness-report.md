@@ -15,11 +15,11 @@ Overall result: PASS
 | Documentation | Query appendix | PASS | CLI and query examples are aligned to placeholder actors and resources |
 | Evidence | Manifest | PASS | `evidence-templates/asset-manifest.md` maps each visual to scenario proof |
 | Deck | Presentation | PASS | Public-safe deck is expected at `docs/deck/cloudsec-soc-detection-lab.pptx` |
-| Sanitization | Private details | PASS | No company names, private screenshots, credentials, or secret values are required for the public package |
+| Sanitization | Private details | PASS | No company names, environment-specific screenshots, credentials, or secret values are required for the public package |
 
 ## Completion Checklist
 
-- [x] Supporting visuals are repo-owned generated assets, not private screenshots.
+- [x] Supporting visuals are repo-owned generated assets, not environment-specific screenshots.
 - [x] Each scenario has at least one proof visual and one query or CLI pivot.
 - [x] Build order is documented clearly enough to explain the working model.
 - [x] Known boundaries are explicit enough to prevent overclaiming.

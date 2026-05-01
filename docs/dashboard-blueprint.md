@@ -1,6 +1,6 @@
 # Dashboard Page Blueprint
 
-This blueprint mirrors the approved Phase 2C page design so the live Looker Studio build can follow a fixed page model without reinterpretation.
+This blueprint mirrors the public dashboard page design so the live Looker Studio build can follow a fixed page model without reinterpretation.
 
 ## Page Order
 1. Overview

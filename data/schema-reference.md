@@ -1,6 +1,6 @@
 # Curated Dataset Schema Reference
 
-This package implements the six normalized datasets defined in Phase 2B of the implementation specification:
+This package implements the six normalized datasets defined in the normalized dataset model:
 
 - `alerts.csv`
 - `identity_events.csv`

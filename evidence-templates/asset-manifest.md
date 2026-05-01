@@ -59,6 +59,6 @@ node .\tools\generate-public-evidence-assets.mjs
 
 - Use placeholder actors, account IDs, resource names, hostnames, database names, and secret paths.
 - Do not include real screenshots from private tenants.
-- Do not include customer data, employee data, credentials, tokens, API keys, or secret values.
+- Do not include private user data, employee data, credentials, tokens, API keys, or secret values.
 - Label replay events as `source:test-harness` and `synthetic:true`.
 - Keep context and support surfaces separate from live integration claims.

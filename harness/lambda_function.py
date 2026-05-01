@@ -11,7 +11,7 @@ import boto3
 
 DD_SITE = os.environ.get("DD_SITE", "us5.datadoghq.com")
 DD_API_SECRET_NAME = os.environ.get(
-    "DD_API_SECRET_NAME", "cloudsec-rebuild/datadog/api-key"
+    "DD_API_SECRET_NAME", "EXAMPLE_DATADOG_SECRET_NAME"
 )
 SERVICE_NAME = "cloudsec-detection-test-harness"
 HOSTNAME = "cloudsec-test-harness"
