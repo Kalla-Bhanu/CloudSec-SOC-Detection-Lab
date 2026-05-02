@@ -15,14 +15,14 @@ What it is not:
 ## Files
 
 - `lambda_function.py`
-- `deploy-cloudsec-test-harness.ps1`
-- `invoke-cloudsec-test-harness.ps1`
+- `deploy-soclab-test-harness.ps1`
+- `invoke-soclab-test-harness.ps1`
 - `upsert-datadog-test-harness-monitors.ps1`
 
 ## Deploy
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ".\deploy-cloudsec-test-harness.ps1"
+powershell -ExecutionPolicy Bypass -File ".\deploy-soclab-test-harness.ps1"
 ```
 
 ## Create or update the Datadog monitors
@@ -34,11 +34,11 @@ powershell -ExecutionPolicy Bypass -File ".\upsert-datadog-test-harness-monitors
 ## Invoke example scenarios
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ".\invoke-cloudsec-test-harness.ps1" -Scenario identity_account_takeover -Limit 6
+powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Scenario identity_account_takeover -Limit 6
 ```
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ".\invoke-cloudsec-test-harness.ps1" -Scenario endpoint_to_mongodb_pivot -Limit 8
+powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Scenario endpoint_to_mongodb_pivot -Limit 8
 ```
 
 ## Demo framing

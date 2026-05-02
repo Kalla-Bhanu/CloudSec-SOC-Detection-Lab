@@ -48,7 +48,7 @@ tools/                Utility scripts for generated public-safe assets
 ## Key Artifacts
 
 - Live dashboard (GitHub Pages): `https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/`
-- Live dashboard (Vercel): `https://cloudsec-soc-detection-lab.vercel.app/`
+- Live dashboard (Vercel): `https://cloudsec-soc-detection-lab.vercel.app/dashboard/`
 - Dashboard: `dashboard/index.html`
 - Flowcharts: `docs/architecture-and-flowcharts.md`
 - Demo walkthrough: `docs/demo-walkthrough.md`
@@ -62,7 +62,7 @@ The dashboard is hosted publicly at:
 
 ```text
 https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/
-https://cloudsec-soc-detection-lab.vercel.app/
+https://cloudsec-soc-detection-lab.vercel.app/dashboard/
 ```
 
 GitHub Pages publishes the `dashboard/` folder through `.github/workflows/pages.yml`. Vercel serves the same dashboard with `vercel.json` redirecting the root URL to `/dashboard/`.

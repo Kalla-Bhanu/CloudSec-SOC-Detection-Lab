@@ -283,7 +283,7 @@ Dashboard
 -> EKS
 -> Optional AWS follow-ups: IAM, S3, Secrets Manager
 -> Optional context: Okta, Google Workspace, MongoDB, CrowdStrike, Tenable
--> Back to deck slide 31
+-> Back to dashboard Demo Readiness
 ```
 
 Why it mattered:
