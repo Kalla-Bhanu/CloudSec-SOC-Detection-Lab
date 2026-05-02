@@ -61,11 +61,32 @@ $monitors = @(
         tags = @("cloudsec", "test-harness", "synthetic", "identity-account-takeover")
     },
     @{
+        name = "CloudSec Test Harness - AWS IAM Key Misuse"
+        type = "log alert"
+        query = "logs(""source:test-harness @synthetic:true @purpose:detection-rule-validation @scenario:aws_iam_key_misuse"").index(""*"").rollup(""count"").last(""10m"") >= 1"
+        message = "Synthetic AWS IAM key misuse replay observed. This monitor only fires on test-harness events."
+        tags = @("cloudsec", "test-harness", "synthetic", "aws-iam-key-misuse")
+    },
+    @{
+        name = "CloudSec Test Harness - EKS Secret Access Chain"
+        type = "log alert"
+        query = "logs(""source:test-harness @synthetic:true @purpose:detection-rule-validation @scenario:eks_secret_access_chain"").index(""*"").rollup(""count"").last(""10m"") >= 1"
+        message = "Synthetic EKS workload secret access replay observed. This monitor only fires on test-harness events."
+        tags = @("cloudsec", "test-harness", "synthetic", "eks-secret-access-chain")
+    },
+    @{
         name = "CloudSec Test Harness - Endpoint To MongoDB Pivot"
         type = "log alert"
         query = "logs(""source:test-harness @synthetic:true @purpose:detection-rule-validation @scenario:endpoint_to_mongodb_pivot"").index(""*"").rollup(""count"").last(""10m"") >= 1"
         message = "Synthetic endpoint-to-MongoDB pivot replay observed. This monitor only fires on test-harness events."
         tags = @("cloudsec", "test-harness", "synthetic", "endpoint-to-mongodb-pivot")
+    },
+    @{
+        name = "CloudSec Test Harness - S3 Data Access Exfiltration"
+        type = "log alert"
+        query = "logs(""source:test-harness @synthetic:true @purpose:detection-rule-validation @scenario:s3_data_access_exfiltration"").index(""*"").rollup(""count"").last(""10m"") >= 1"
+        message = "Synthetic S3 data access and exfiltration replay observed. This monitor only fires on test-harness events."
+        tags = @("cloudsec", "test-harness", "synthetic", "s3-data-access-exfiltration")
     }
 )
 

@@ -15,9 +15,22 @@ What it is not:
 ## Files
 
 - `lambda_function.py`
+- `CONTRACT.md`
 - `deploy-soclab-test-harness.ps1`
 - `invoke-soclab-test-harness.ps1`
 - `upsert-datadog-test-harness-monitors.ps1`
+
+## Contract
+
+The harness behavior is defined in `CONTRACT.md`. Tests should validate that contract rather than a single implementation detail.
+
+The five canonical replay scenarios are:
+
+- `identity_account_takeover`
+- `aws_iam_key_misuse`
+- `eks_secret_access_chain`
+- `endpoint_to_mongodb_pivot`
+- `s3_data_access_exfiltration`
 
 ## Deploy
 
@@ -38,7 +51,19 @@ powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Sce
 ```
 
 ```powershell
+powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Scenario aws_iam_key_misuse -Limit 6
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Scenario eks_secret_access_chain -Limit 6
+```
+
+```powershell
 powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Scenario endpoint_to_mongodb_pivot -Limit 8
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Scenario s3_data_access_exfiltration -Limit 6
 ```
 
 ## Demo framing

@@ -6,8 +6,6 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-import boto3
-
 
 DD_SITE = os.environ.get("DD_SITE", "us5.datadoghq.com")
 DD_API_SECRET_NAME = os.environ.get(
@@ -18,14 +16,37 @@ HOSTNAME = "cloudsec-test-harness"
 BASE_DIR = Path(__file__).resolve().parent
 BATCH_SIZE = 50
 
-SCENARIO_SIMULATION = {
-    "identity_account_takeover": "okta-gws-identity-chain",
-    "endpoint_to_mongodb_pivot": "crowdstrike-mongodb-pivot",
-    "asset_context_enrichment": "tenable-asset-context",
+SCENARIO_METADATA = {
+    "identity_account_takeover": {
+        "simulation": "okta-gws-identity-chain",
+        "is_canonical_scenario": True,
+    },
+    "aws_iam_key_misuse": {
+        "simulation": "cloudtrail-iam-key-misuse-chain",
+        "is_canonical_scenario": True,
+    },
+    "eks_secret_access_chain": {
+        "simulation": "eks-workload-secret-access-chain",
+        "is_canonical_scenario": True,
+    },
+    "endpoint_to_mongodb_pivot": {
+        "simulation": "crowdstrike-mongodb-pivot",
+        "is_canonical_scenario": True,
+    },
+    "s3_data_access_exfiltration": {
+        "simulation": "cloudtrail-s3-sensitive-access-chain",
+        "is_canonical_scenario": True,
+    },
+    "asset_context_enrichment": {
+        "simulation": "tenable-asset-context",
+        "is_canonical_scenario": False,
+    },
 }
 
 DATASET_MAP = [
+    ("alerts.csv", None),
     ("identity_events.csv", "identity_account_takeover"),
+    ("cloud_activity.csv", None),
     ("endpoint_activity.csv", "endpoint_to_mongodb_pivot"),
     ("incident_timeline.csv", None),
     ("asset_inventory.csv", "asset_context_enrichment"),
@@ -33,6 +54,8 @@ DATASET_MAP = [
 
 
 def _load_secret(secret_name):
+    import boto3
+
     client = boto3.client("secretsmanager")
     response = client.get_secret_value(SecretId=secret_name)
     secret_string = response.get("SecretString", "")
@@ -85,17 +108,30 @@ def _build_message(item):
     )
 
 
+def _get_scenario_metadata(scenario):
+    return SCENARIO_METADATA.get(
+        scenario,
+        {
+            "simulation": "generic-detection-validation",
+            "is_canonical_scenario": False,
+        },
+    )
+
+
 def _build_event(item, replay_id):
     row = item["row"]
     scenario = item["scenario"]
     original_source = item["original_source"]
-    simulation_name = SCENARIO_SIMULATION.get(scenario, "generic-detection-validation")
+    scenario_metadata = _get_scenario_metadata(scenario)
+    simulation_name = scenario_metadata["simulation"]
+    is_canonical_scenario = scenario_metadata["is_canonical_scenario"]
     event_time = datetime.now(timezone.utc).isoformat()
     tags = [
         "source:test-harness",
         "synthetic:true",
         "purpose:detection-rule-validation",
         f"scenario:{scenario}",
+        f"canonical_scenario:{str(is_canonical_scenario).lower()}",
         f"simulates:{simulation_name}",
         f"simulated_source:{str(original_source).replace(' ', '_')}",
         f"dataset:{item['dataset_file']}",
@@ -111,6 +147,7 @@ def _build_event(item, replay_id):
         "purpose": "detection-rule-validation",
         "replay_id": replay_id,
         "scenario": scenario,
+        "is_canonical_scenario": is_canonical_scenario,
         "simulates": simulation_name,
         "simulated_source": original_source,
         "dataset_file": item["dataset_file"],
@@ -166,7 +203,7 @@ def lambda_handler(event, context):
     limit = int(event.get("limit", 25))
     dry_run = bool(event.get("dry_run", False))
     replay_id = event.get("replay_id") or datetime.now(timezone.utc).strftime(
-        "replay-%Y%m%dT%H%M%SZ"
+        "replay-%Y%m%dT%H%M%S%fZ"
     )
 
     all_rows = _read_csv_rows()
@@ -183,6 +220,16 @@ def lambda_handler(event, context):
             "replay_id": replay_id,
             "selected_events": len(events),
             "scenario_counts": dict(summary),
+        }
+
+    if not events:
+        return {
+            "status": "no-events",
+            "replay_id": replay_id,
+            "selected_events": 0,
+            "scenario_counts": {},
+            "datadog_statuses": [],
+            "scenarios_present": [],
         }
 
     api_key = _load_secret(DD_API_SECRET_NAME)

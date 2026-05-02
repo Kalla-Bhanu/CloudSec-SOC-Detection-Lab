@@ -2,7 +2,7 @@
 param(
     [string]$Region = "us-east-1",
     [string]$FunctionName = "cloudsec-detection-test-harness",
-    [ValidateSet("identity_account_takeover", "endpoint_to_mongodb_pivot", "asset_context_enrichment", "all")]
+    [ValidateSet("identity_account_takeover", "aws_iam_key_misuse", "eks_secret_access_chain", "endpoint_to_mongodb_pivot", "s3_data_access_exfiltration", "asset_context_enrichment", "all")]
     [string]$Scenario = "all",
     [int]$Limit = 25,
     [string]$OutputFile = ""

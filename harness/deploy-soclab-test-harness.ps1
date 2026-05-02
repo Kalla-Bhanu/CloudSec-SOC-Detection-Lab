@@ -22,7 +22,7 @@ New-Item -ItemType Directory -Force -Path $packageDir | Out-Null
 
 Copy-Item (Join-Path $root "lambda_function.py") $packageDir
 $datasetRoot = Join-Path (Split-Path $root -Parent) "data"
-foreach ($file in @("identity_events.csv", "endpoint_activity.csv", "incident_timeline.csv", "asset_inventory.csv")) {
+foreach ($file in @("alerts.csv", "identity_events.csv", "cloud_activity.csv", "endpoint_activity.csv", "incident_timeline.csv", "asset_inventory.csv")) {
     Copy-Item (Join-Path $datasetRoot $file) $packageDir
 }
 
