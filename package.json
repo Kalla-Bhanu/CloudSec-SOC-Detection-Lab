@@ -4,7 +4,9 @@
   "private": true,
   "description": "Static dashboard smoke tests for a synthetic cloud security detection lab.",
   "scripts": {
-    "test:dashboard": "playwright test"
+    "generate:evidence-assets": "node tools/generate-public-evidence-assets.mjs",
+    "test:dashboard": "playwright test",
+    "verify:evidence-assets": "node tools/generate-public-evidence-assets.mjs --check"
   },
   "devDependencies": {
     "@playwright/test": "1.59.1"

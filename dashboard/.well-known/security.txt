@@ -1,0 +1,5 @@
+Contact: https://github.com/Kalla-Bhanu/CloudSec-SOC-Detection-Lab/security/advisories/new
+Expires: 2027-05-02T00:00:00Z
+Policy: https://github.com/Kalla-Bhanu/CloudSec-SOC-Detection-Lab/blob/main/SECURITY.md
+Preferred-Languages: en
+Canonical: https://cloudsec-soc-detection-lab.vercel.app/.well-known/security.txt

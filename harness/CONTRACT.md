@@ -13,9 +13,11 @@ The Lambda handler accepts a JSON object with these fields:
 | Field | Type | Default | Behavior |
 | --- | --- | --- | --- |
 | `scenario` | string | `all` | `all` selects every available row. A canonical scenario selects rows with that scenario. Unknown scenarios select zero rows. |
-| `limit` | integer | `25` | Positive values cap selected rows. `0` means no cap. |
-| `dry_run` | boolean | `false` | When `true`, the harness returns counts and does not load secrets or post to Datadog. |
+| `limit` | integer or numeric string | `25` | Positive values cap selected rows. `0` means no cap. Invalid, blank, or negative values fall back to `25`. |
+| `dry_run` | boolean or string | `false` | `true`, `1`, `yes`, `y`, and `on` enable dry-run mode. `false`, `0`, `no`, `n`, `off`, and blank strings disable it. Invalid values fall back to `false` and emit a warning log. When enabled, the harness returns counts and does not load secrets or post to Datadog. |
 | `replay_id` | string | generated | Groups all events from one invocation. If omitted, the harness generates a UTC microsecond timestamp ID. |
+
+Strings are stripped and lowercased before boolean coercion. Invalid `limit` and `dry_run` values do not crash the invocation; they fall back to defaults and emit warning logs.
 
 ## Canonical Scenarios
 
@@ -46,27 +48,29 @@ Missing files are skipped. Header-only files produce zero events. Rows without a
 
 Every posted or built event includes:
 
-- `message`
-- `ddsource` with value `test-harness`
-- `service` with value `cloudsec-detection-test-harness`
-- `hostname` with value `cloudsec-test-harness`
-- `ddtags`
-- `synthetic` with value `true`
-- `purpose` with value `detection-rule-validation`
-- `replay_id`
-- `scenario`
-- `is_canonical_scenario`
-- `simulates`
-- `simulated_source`
-- `dataset_file`
-- `event_time`
-- `original_timestamp`
-- `severity`
-- `status`
-- `platform`
-- `environment`
-- `telemetry_type`
-- `row`
+| Field | Type | Contract |
+| --- | --- | --- |
+| `message` | string | Human-readable synthetic validation summary. |
+| `ddsource` | string | Always `test-harness`. |
+| `service` | string | Always `cloudsec-detection-test-harness`. |
+| `hostname` | string | Always `cloudsec-test-harness`. |
+| `ddtags` | string | Comma-delimited Datadog tag string listed below. |
+| `synthetic` | string | Always `true`. |
+| `purpose` | string | Always `detection-rule-validation`. |
+| `replay_id` | string | Invocation grouping ID, generated or caller-provided. |
+| `scenario` | string | Canonical scenario, support-context scenario, or fallback scenario name. |
+| `is_canonical_scenario` | boolean | `true` only for the five canonical scenarios. |
+| `simulates` | string | Scenario simulation name from `SCENARIO_METADATA`. |
+| `simulated_source` | string | Original source value from the CSV row. |
+| `dataset_file` | string | Source CSV filename. |
+| `event_time` | string | UTC ISO timestamp for the built replay event. |
+| `original_timestamp` | string or null | Source-row timestamp when present. |
+| `severity` | string or null | Source-row severity when present. |
+| `status` | string or null | Source-row status when present. |
+| `platform` | string or null | Source-row platform when present. |
+| `environment` | string or null | Source-row environment when present. |
+| `telemetry_type` | string or null | Source-row telemetry type when present. |
+| `row` | object | Original CSV row content preserved for analyst context. |
 
 `ddtags` always includes:
 

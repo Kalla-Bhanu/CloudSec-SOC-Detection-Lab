@@ -101,6 +101,10 @@ jobs:
         shell: pwsh
         run: ./tools/verify-public-safe.ps1
 
+      - name: Verify security.txt disclosure files
+        shell: pwsh
+        run: ./tools/verify-security-txt.ps1
+
   dashboard-tests:
     runs-on: ubuntu-latest
     needs: quality
@@ -135,6 +139,9 @@ jobs:
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
+
+      - name: Verify evidence asset contract
+        run: npm run verify:evidence-assets
 
       - name: Run dashboard smoke tests
         run: npm run test:dashboard

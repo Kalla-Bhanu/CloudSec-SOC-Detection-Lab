@@ -3,6 +3,8 @@ import importlib
 import sys
 from pathlib import Path
 
+import pytest
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 HARNESS_ROOT = REPO_ROOT / "harness"
@@ -213,6 +215,110 @@ def test_limit_caps_selected_rows(tmp_path, monkeypatch):
     )
 
     assert result["selected_events"] == 2
+
+
+@pytest.mark.parametrize(
+    ("raw_limit", "expected"),
+    [
+        (25, 25),
+        ("2", 2),
+        (0, 0),
+        (None, 25),
+        ("not-a-number", 25),
+        (-5, 25),
+        (True, 25),
+    ],
+)
+def test_limit_coercion_matrix(raw_limit, expected):
+    assert lambda_function._parse_limit(raw_limit) == expected
+
+
+@pytest.mark.parametrize(
+    ("raw_dry_run", "expected"),
+    [
+        (True, True),
+        (False, False),
+        ("true", True),
+        ("YES", True),
+        ("on", True),
+        ("false", False),
+        ("0", False),
+        ("off", False),
+        ("unexpected", False),
+    ],
+)
+def test_dry_run_coercion_matrix(raw_dry_run, expected):
+    assert lambda_function._parse_bool(raw_dry_run) is expected
+
+
+def test_limit_accepts_numeric_strings(tmp_path, monkeypatch):
+    _write_fixture_dataset(tmp_path)
+    monkeypatch.setattr(lambda_function, "BASE_DIR", tmp_path)
+
+    result = lambda_function.lambda_handler(
+        {"scenario": "all", "limit": "2", "dry_run": True},
+        None,
+    )
+
+    assert result["selected_events"] == 2
+
+
+def test_invalid_and_negative_limits_fall_back_to_default(tmp_path, monkeypatch):
+    _write_fixture_dataset(tmp_path)
+    monkeypatch.setattr(lambda_function, "BASE_DIR", tmp_path)
+
+    invalid = lambda_function.lambda_handler(
+        {"scenario": "all", "limit": "not-a-number", "dry_run": True},
+        None,
+    )
+    negative = lambda_function.lambda_handler(
+        {"scenario": "all", "limit": -5, "dry_run": True},
+        None,
+    )
+
+    assert invalid["selected_events"] == sum(invalid["scenario_counts"].values())
+    assert negative["selected_events"] == sum(negative["scenario_counts"].values())
+
+
+def test_string_false_does_not_force_dry_run(tmp_path, monkeypatch):
+    _write_fixture_dataset(tmp_path)
+    posted = {}
+    monkeypatch.setattr(lambda_function, "BASE_DIR", tmp_path)
+    monkeypatch.setattr(lambda_function, "_load_secret", lambda secret_name: "api-key")
+
+    def fake_post(api_key, events):
+        posted["api_key"] = api_key
+        posted["events"] = events
+        return [202]
+
+    monkeypatch.setattr(lambda_function, "_post_to_datadog", fake_post)
+
+    result = lambda_function.lambda_handler(
+        {"scenario": "aws_iam_key_misuse", "limit": 1, "dry_run": "false"},
+        None,
+    )
+
+    assert result["status"] == "posted"
+    assert posted["api_key"] == "api-key"
+    assert len(posted["events"]) == 1
+
+
+def test_string_true_enables_dry_run(tmp_path, monkeypatch):
+    _write_fixture_dataset(tmp_path)
+    monkeypatch.setattr(lambda_function, "BASE_DIR", tmp_path)
+
+    def fail_secret(_secret_name):
+        raise AssertionError("secret loading should be skipped")
+
+    monkeypatch.setattr(lambda_function, "_load_secret", fail_secret)
+
+    result = lambda_function.lambda_handler(
+        {"scenario": "all", "limit": 1, "dry_run": "true"},
+        None,
+    )
+
+    assert result["status"] == "dry-run"
+    assert result["selected_events"] == 1
 
 
 def test_unknown_scenario_returns_no_events_without_posting(tmp_path, monkeypatch):

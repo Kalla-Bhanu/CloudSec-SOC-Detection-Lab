@@ -1,5 +1,8 @@
+"""Synthetic replay handler. Event schema and coercion rules are in CONTRACT.md."""
+
 import csv
 import json
+import logging
 import os
 import urllib.request
 from collections import defaultdict
@@ -15,6 +18,7 @@ SERVICE_NAME = "cloudsec-detection-test-harness"
 HOSTNAME = "cloudsec-test-harness"
 BASE_DIR = Path(__file__).resolve().parent
 BATCH_SIZE = 50
+LOGGER = logging.getLogger(__name__)
 
 SCENARIO_METADATA = {
     "identity_account_takeover": {
@@ -118,6 +122,40 @@ def _get_scenario_metadata(scenario):
     )
 
 
+def _parse_limit(value, default=25):
+    if isinstance(value, bool):
+        LOGGER.warning("limit=%r invalid, using default=%d", value, default)
+        return default
+    try:
+        limit = int(value)
+    except (TypeError, ValueError):
+        LOGGER.warning("limit=%r invalid, using default=%d", value, default)
+        return default
+    if limit < 0:
+        LOGGER.warning("limit=%r invalid, using default=%d", value, default)
+        return default
+    return limit
+
+
+def _parse_bool(value, default=False):
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return default
+    if isinstance(value, (int, float)):
+        return value != 0
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1", "yes", "y", "on"}:
+            return True
+        if normalized in {"false", "0", "no", "n", "off", ""}:
+            return False
+        LOGGER.warning("dry_run=%r invalid, using default=%s", value, default)
+        return default
+    LOGGER.warning("dry_run=%r invalid, using default=%s", value, default)
+    return default
+
+
 def _build_event(item, replay_id):
     row = item["row"]
     scenario = item["scenario"]
@@ -200,8 +238,8 @@ def _select_rows(all_rows, scenario, limit):
 def lambda_handler(event, context):
     event = event or {}
     scenario = event.get("scenario", "all")
-    limit = int(event.get("limit", 25))
-    dry_run = bool(event.get("dry_run", False))
+    limit = _parse_limit(event.get("limit", 25))
+    dry_run = _parse_bool(event.get("dry_run", False))
     replay_id = event.get("replay_id") or datetime.now(timezone.utc).strftime(
         "replay-%Y%m%dT%H%M%S%fZ"
     )

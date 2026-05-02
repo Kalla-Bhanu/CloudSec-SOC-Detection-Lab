@@ -2,6 +2,8 @@
 
 This document defines the supported public reproduction path for the CloudSec SOC Detection Lab. It is the path a reviewer can use to clone the repo, install dependencies, run the local validation suite, and open the dashboard without private tenants or credentials.
 
+For ongoing upkeep after future edits, use `docs/maintenance-checklist.md`.
+
 ## Supported Local Surface
 
 The public repo supports fixture-based validation of:
@@ -47,6 +49,14 @@ Run the dashboard smoke tests:
 npm run test:dashboard
 ```
 
+Verify the public-safe evidence templates and committed evidence assets:
+
+```powershell
+npm run verify:evidence-assets
+```
+
+The default evidence verifier avoids renderer-specific PNG byte hashes so it stays stable across local Windows and CI Linux runners. Use `node tools/generate-public-evidence-assets.mjs --check --render-png` only for same-renderer local byte checks.
+
 Run workflow syntax validation:
 
 ```powershell
@@ -59,7 +69,19 @@ Run the public-safe verifier:
 powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tools\verify-public-safe.ps1
 ```
 
-Expected result: the test runners should complete without failures. The public-safe verifier prints `PASS public-safe checks completed.` followed by the current tracked-file counts. The exact counts can change as files are added or removed; treat any non-PASS verifier output as a failure.
+Verify the security disclosure files:
+
+```powershell
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tools\verify-security-txt.ps1
+```
+
+Run the public live-dashboard smoke check:
+
+```powershell
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tools\verify-live-dashboard.ps1
+```
+
+Expected result: the test runners should complete without failures. The evidence verifier prints `PASS evidence asset verification completed`. The public-safe verifier prints `PASS public-safe checks completed.` followed by the current tracked-file counts. The security verifier prints `PASS security.txt files are aligned and unexpired.` The exact counts can change as files are added or removed; treat any non-PASS verifier output as a failure.
 
 ## Run The Dashboard Locally
 

@@ -10,6 +10,7 @@
 - [Live dashboard (GitHub Pages)](https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/)
 - [Demo walkthrough](docs/demo-walkthrough.md)
 - [Reproducibility](docs/reproducibility.md)
+- [Maintenance checklist](docs/maintenance-checklist.md)
 - [Detection scenarios](#detection-scenarios)
 - [License](LICENSE)
 
@@ -54,6 +55,7 @@ tools/                Utility scripts for generated public-safe assets
 - Flowcharts: `docs/architecture-and-flowcharts.md`
 - Demo walkthrough: `docs/demo-walkthrough.md`
 - Reproducibility: `docs/reproducibility.md`
+- Maintenance checklist: `docs/maintenance-checklist.md`
 - Completion notes: `docs/completion-notes.md`
 - CLI/query examples: `docs/queries/cli-query-examples.md`
 - Evidence manifest: `evidence-templates/asset-manifest.md`
@@ -81,14 +83,18 @@ Then open the local URL printed by the script.
 
 ## Reproduce The Public Package
 
-The supported validation path is documented in `docs/reproducibility.md`. The core local checks are:
+The supported validation path is documented in `docs/reproducibility.md`. The core checks are:
 
 ```powershell
 python -B -m pytest --assert=plain -p no:cacheprovider
+npm run verify:evidence-assets
 npm run test:dashboard
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tools\verify-public-safe.ps1
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tools\verify-security-txt.ps1
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tools\verify-live-dashboard.ps1
 ```
 
-That guide also covers dependency installation, workflow linting, the public-safe verifier, the local dashboard command, and the boundary between fixture-based validation and external AWS or Datadog deployment.
+That guide also covers dependency installation, workflow linting, the public-safe verifier, the local dashboard command, scheduled live smoke checks, and the boundary between fixture-based validation and external AWS or Datadog deployment.
 
 ## Harness Concept
 

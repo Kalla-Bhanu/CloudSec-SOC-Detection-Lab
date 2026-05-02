@@ -1,6 +1,14 @@
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import {
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync
+} from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -8,6 +16,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const htmlDir = path.join(repoRoot, "evidence-templates", "public-safe");
 const pngDir = path.join(repoRoot, "dashboard", "assets", "evidence");
+const args = new Set(process.argv.slice(2));
+const checkMode = args.has("--check");
+const renderPngDuringCheck = args.has("--render-png");
 
 const chromeCandidates = [
   process.env.CHROME_PATH,
@@ -509,39 +520,179 @@ function renderHtml(asset) {
 </html>`;
 }
 
-function findChrome() {
-  return chromeCandidates.find((candidate) => existsSync(candidate));
+async function findChrome() {
+  const browser = chromeCandidates.find((candidate) => existsSync(candidate));
+  if (browser) {
+    return browser;
+  }
+
+  try {
+    const { chromium } = await import("@playwright/test");
+    const playwrightBrowser = chromium.executablePath();
+    if (existsSync(playwrightBrowser)) {
+      return playwrightBrowser;
+    }
+  } catch {
+    // Playwright is optional for one-off local generation; system Chrome is enough.
+  }
+
+  return null;
 }
 
-await mkdir(htmlDir, { recursive: true });
-await mkdir(pngDir, { recursive: true });
-
-for (const asset of assets) {
-  const htmlPath = path.join(htmlDir, `${asset.file}.html`);
-  await writeFile(htmlPath, renderHtml(asset), "utf8");
+function sha256(filePath) {
+  return createHash("sha256").update(readFileSync(filePath)).digest("hex");
 }
 
-const chrome = findChrome();
-if (!chrome) {
-  throw new Error("Chrome or Edge executable was not found. Set CHROME_PATH and rerun this script.");
+function normalizedText(filePath) {
+  return readFileSync(filePath, "utf8")
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+$/gm, "")
+    .trimEnd();
 }
 
-for (const asset of assets) {
-  const htmlPath = path.join(htmlDir, `${asset.file}.html`);
-  const pngPath = path.join(pngDir, `${asset.file}.png`);
-  const result = spawnSync(chrome, [
-    "--headless=new",
-    "--disable-gpu",
-    "--hide-scrollbars",
-    "--no-first-run",
-    "--window-size=1400,900",
-    `--screenshot=${pngPath}`,
-    pathToFileURL(htmlPath).href
-  ], { stdio: "inherit" });
+function listBasenames(directory, extension) {
+  if (!existsSync(directory)) {
+    return [];
+  }
+  return readdirSync(directory)
+    .filter((file) => file.endsWith(extension))
+    .sort();
+}
 
-  if (result.status !== 0) {
-    throw new Error(`Failed to render ${asset.file}.png`);
+function readPngDimensions(filePath) {
+  const data = readFileSync(filePath);
+  const signature = "89504e470d0a1a0a";
+  if (data.length < 24 || data.subarray(0, 8).toString("hex") !== signature) {
+    throw new Error("not a valid PNG file");
+  }
+  return {
+    width: data.readUInt32BE(16),
+    height: data.readUInt32BE(20)
+  };
+}
+
+function verifyCommittedAssets(generatedHtmlDir, generatedPngDir) {
+  const failures = [];
+  const expectedHtml = assets.map((asset) => `${asset.file}.html`).sort();
+  const expectedPng = assets.map((asset) => `${asset.file}.png`).sort();
+  const committedHtml = listBasenames(htmlDir, ".html");
+  const committedPng = listBasenames(pngDir, ".png");
+
+  for (const htmlFile of expectedHtml) {
+    const generatedPath = path.join(generatedHtmlDir, htmlFile);
+    const committedPath = path.join(htmlDir, htmlFile);
+    if (!existsSync(committedPath)) {
+      failures.push(`Missing committed template: ${htmlFile}`);
+      continue;
+    }
+    if (normalizedText(generatedPath) !== normalizedText(committedPath)) {
+      failures.push(`Template drift: ${htmlFile}`);
+    }
+  }
+
+  for (const htmlFile of committedHtml) {
+    if (!expectedHtml.includes(htmlFile)) {
+      failures.push(`Unexpected committed template: ${htmlFile}`);
+    }
+  }
+
+  for (const pngFile of expectedPng) {
+    const committedPath = path.join(pngDir, pngFile);
+    if (!existsSync(committedPath)) {
+      failures.push(`Missing committed PNG: ${pngFile}`);
+      continue;
+    }
+    try {
+      const dimensions = readPngDimensions(committedPath);
+      if (dimensions.width !== 1400 || dimensions.height !== 900) {
+        failures.push(
+          `Unexpected PNG dimensions for ${pngFile}: ${dimensions.width}x${dimensions.height}`
+        );
+      }
+    } catch (error) {
+      failures.push(`Invalid committed PNG ${pngFile}: ${error.message}`);
+    }
+  }
+
+  for (const pngFile of committedPng) {
+    if (!expectedPng.includes(pngFile)) {
+      failures.push(`Unexpected committed PNG: ${pngFile}`);
+    }
+  }
+
+  if (renderPngDuringCheck) {
+    for (const pngFile of expectedPng) {
+      const generatedPath = path.join(generatedPngDir, pngFile);
+      const committedPath = path.join(pngDir, pngFile);
+      if (existsSync(generatedPath) && existsSync(committedPath)) {
+        if (sha256(generatedPath) !== sha256(committedPath)) {
+          failures.push(`Rendered PNG byte drift: ${pngFile}`);
+        }
+      }
+    }
+  }
+
+  if (failures.length > 0) {
+    throw new Error(
+      `Evidence asset verification failed:\n- ${failures.join("\n- ")}\nRun npm run generate:evidence-assets to refresh generated assets.`
+    );
   }
 }
 
-console.log(`Rendered ${assets.length} public-safe evidence assets to ${pngDir}`);
+const outputRoot = checkMode
+  ? mkdtempSync(path.join(tmpdir(), "cloudsec-evidence-"))
+  : repoRoot;
+const outputHtmlDir = checkMode
+  ? path.join(outputRoot, "evidence-templates", "public-safe")
+  : htmlDir;
+const outputPngDir = checkMode
+  ? path.join(outputRoot, "dashboard", "assets", "evidence")
+  : pngDir;
+
+try {
+  await mkdir(outputHtmlDir, { recursive: true });
+  await mkdir(outputPngDir, { recursive: true });
+
+  for (const asset of assets) {
+    const htmlPath = path.join(outputHtmlDir, `${asset.file}.html`);
+    await writeFile(htmlPath, renderHtml(asset), "utf8");
+  }
+
+  if (!checkMode || renderPngDuringCheck) {
+    const chrome = await findChrome();
+    if (!chrome) {
+      throw new Error(
+        "Chrome, Edge, or Playwright Chromium was not found. Set CHROME_PATH and rerun this script."
+      );
+    }
+
+    for (const asset of assets) {
+      const htmlPath = path.join(outputHtmlDir, `${asset.file}.html`);
+      const pngPath = path.join(outputPngDir, `${asset.file}.png`);
+      const result = spawnSync(chrome, [
+        "--headless=new",
+        "--disable-gpu",
+        "--hide-scrollbars",
+        "--no-first-run",
+        "--window-size=1400,900",
+        `--screenshot=${pngPath}`,
+        pathToFileURL(htmlPath).href
+      ], { stdio: "inherit" });
+
+      if (result.status !== 0) {
+        throw new Error(`Failed to render ${asset.file}.png`);
+      }
+    }
+  }
+
+  if (checkMode) {
+    verifyCommittedAssets(outputHtmlDir, outputPngDir);
+    console.log(`PASS evidence asset verification completed for ${assets.length} assets.`);
+  } else {
+    console.log(`Rendered ${assets.length} public-safe evidence assets to ${pngDir}`);
+  }
+} finally {
+  if (checkMode) {
+    rmSync(outputRoot, { recursive: true, force: true });
+  }
+}
