@@ -20,7 +20,7 @@ module.exports = defineConfig({
     video: "off"
   },
   webServer: {
-    command: "node dashboard/codex-static-server.js",
+    command: "node dashboard/static-server.js",
     env: {
       PORT: String(port)
     },

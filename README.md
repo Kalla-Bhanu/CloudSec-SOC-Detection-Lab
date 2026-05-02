@@ -15,9 +15,9 @@
 - [Detection scenarios](#detection-scenarios)
 - [License](LICENSE)
 
-An AWS-first SOC detection engineering lab that shows how to design, validate, explain, and present five common security monitoring scenarios across cloud, identity, runtime, endpoint, and data-access surfaces.
+I built this as an AWS-first SOC case file: five suspicious paths, the proof behind each one, and the way I would walk a reviewer from signal to response. The lab covers identity pressure, cloud key misuse, EKS secret access, endpoint-to-data movement, and S3 access/exfiltration without exposing private tenant material.
 
-This is the public-safe portfolio version. It uses synthetic datasets, sanitized evidence visuals, lab-safe harness code, and public documentation only. It does not include private company names, tenant identifiers, private user data, real credentials, secret values, private prep notes, or production screenshots.
+This is the public-safe version of the work. The datasets are synthetic, the evidence visuals are sanitized or repo-owned, and the harness uses lab-safe replay events. It does not include private company names, tenant identifiers, private user data, real credentials, secret values, private prep notes, or production screenshots.
 
 ## What This Project Shows
 
@@ -28,6 +28,10 @@ This is the public-safe portfolio version. It uses synthetic datasets, sanitized
 - Datadog log and monitor validation patterns using `source:test-harness` and `synthetic:true`.
 - AWS investigation context around CloudTrail, IAM, STS, S3, Secrets Manager, EKS, and KMS.
 - Flowcharts, evidence templates, a demo runbook, and a presentation deck.
+
+## Why It Is Framed This Way
+
+I kept this repo as a case file instead of turning it into a monitor catalog. In a SOC review, the hard part is rarely pointing at one alert; it is explaining why the activity matters, what evidence supports it, and what response decision follows. The dashboard, evidence map, and walkthrough are built around that flow.
 
 ## Detection Scenarios
 

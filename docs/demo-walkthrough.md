@@ -119,4 +119,4 @@ Recommended backup visuals:
 - `The harness is a controlled synthetic replay path.`
 - `source:test-harness and synthetic:true separate validation data from live vendor integrations.`
 - `Identity, workspace, endpoint, database, and exposure views are context or supporting panels unless explicitly validated in a live environment.`
-- `The public package demonstrates detection-engineering flow, not production coverage.`
+- `The public package shows detection-engineering flow, not production coverage.`

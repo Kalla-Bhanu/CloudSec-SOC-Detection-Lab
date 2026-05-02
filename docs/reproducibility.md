@@ -102,7 +102,7 @@ The Playwright suite uses a separate test port by default so the smoke tests do 
 
 The local reproduction path does not validate a live AWS account, Datadog organization, identity provider, workspace tenant, endpoint platform, MongoDB tenant, or exposure-management tenant. It also does not include production telemetry, production screenshots, private user data, tenant identifiers, real credentials, or secret values.
 
-This is intentional. The public package demonstrates the detection-engineering flow with sanitized fixtures and repo-owned evidence assets, not production coverage.
+This is intentional. The public package shows the detection-engineering flow with sanitized fixtures and repo-owned evidence assets, not production coverage.
 
 ## External Deployment Context
 

@@ -4,7 +4,7 @@
 
 This repository is a solo-built synthetic SOC detection engineering lab covering five canonical scenarios across cloud, identity, runtime, endpoint, and data-access surfaces. It is public-safe and fixture-tested: the datasets, evidence visuals, harness events, and dashboard content are synthetic or sanitized for review without private tenants or production screenshots.
 
-The package demonstrates detection-engineering flow: scenario design, signal generation, monitor validation patterns, triage pivots, evidence handling, and analyst handoff. It does not claim production SOC coverage or live coverage across every vendor shown in the public-safe context panels.
+The package shows the detection-engineering flow I wanted to preserve: scenario design, signal generation, monitor validation patterns, triage pivots, evidence handling, and analyst handoff. It does not claim production SOC coverage or live coverage across every vendor shown in the public-safe context panels.
 
 ## Components
 

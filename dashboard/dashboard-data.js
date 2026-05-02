@@ -223,7 +223,7 @@ const APP_DATA = {
     "Any replayed content must stay visibly labeled as source:test-harness and synthetic:true.",
     "Context panels are not vendor-native integration claims.",
     "Endpoint and exposure panels are supporting evidence, not production incident views.",
-    "The public repo demonstrates detection-engineering flow, not production coverage."
+    "The public repo shows detection-engineering flow, not production coverage."
   ],
   recruiterNotes: [
     "Every scenario is tied to a proof source, a response stance, and a technical pivot path.",
