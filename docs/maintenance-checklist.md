@@ -33,4 +33,5 @@ npx --yes @tktco/node-actionlint
 - Run the live dashboard smoke check if the scheduled workflow has not run recently.
 - Renew the `Expires` value in `.well-known/security.txt` before May 2, 2027.
 - Keep `SECURITY.md` and both `security.txt` copies aligned; the root copy supports Vercel and the dashboard copy supports GitHub Pages.
+- Keep `dashboard/.nojekyll` in place so GitHub Pages serves the dashboard `.well-known` directory.
 - After deployment, verify the Vercel and GitHub Pages `/.well-known/security.txt` URLs are reachable.
