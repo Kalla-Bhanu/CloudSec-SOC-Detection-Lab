@@ -100,3 +100,41 @@ jobs:
       - name: Run public-safe verifier
         shell: pwsh
         run: ./tools/verify-public-safe.ps1
+
+  dashboard-tests:
+    runs-on: ubuntu-latest
+    needs: quality
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Install Node dev dependencies
+        run: npm ci
+
+      - name: Verify dashboard test port is free
+        shell: bash
+        run: |
+          if lsof -iTCP:4175 -sTCP:LISTEN 2>/dev/null | grep -q .; then
+            echo "::error::Port 4175 is already in use"
+            exit 1
+          fi
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-browsers-${{ runner.os }}-
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run dashboard smoke tests
+        run: npm run test:dashboard

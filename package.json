@@ -1,0 +1,12 @@
+{
+  "name": "cloudsec-soc-detection-lab",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Static dashboard smoke tests for a synthetic cloud security detection lab.",
+  "scripts": {
+    "test:dashboard": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.59.1"
+  }
+}
