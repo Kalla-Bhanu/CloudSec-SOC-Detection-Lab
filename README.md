@@ -54,6 +54,7 @@ tools/                Utility scripts for generated public-safe assets
 - Flowcharts: `docs/architecture-and-flowcharts.md`
 - Demo walkthrough: `docs/demo-walkthrough.md`
 - Reproducibility: `docs/reproducibility.md`
+- Completion notes: `docs/completion-notes.md`
 - CLI/query examples: `docs/queries/cli-query-examples.md`
 - Evidence manifest: `evidence-templates/asset-manifest.md`
 - Presentation deck: `docs/deck/cloudsec-soc-detection-lab.pptx`

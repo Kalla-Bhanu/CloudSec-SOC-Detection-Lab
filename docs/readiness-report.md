@@ -2,6 +2,8 @@
 
 Generated: 2026-04-29
 
+Snapshot note: This report reflects the public package state as of 2026-04-29. For component and validation-surface notes, see `docs/completion-notes.md`.
+
 Overall result: PASS
 
 | Area | Item | Result | Detail |
