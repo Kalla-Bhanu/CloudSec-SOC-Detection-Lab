@@ -21,8 +21,8 @@ This manifest tracks the public-safe visual evidence package used by the dashboa
 | `eks-compute-live-view.png` | EKS Secret Access Chain | Compute plane model | Generated |
 | `eks-resources-live-view.png` | EKS Secret Access Chain | Workload model | Generated |
 | `secretsmanager-access-view.png` | EKS Secret Access Chain | Secret-access context | Generated |
-| `mongodb-auth-log-view.png` | Endpoint To MongoDB Pivot | Database activity model | Generated |
-| `crowdstrike-process-tree-view.png` | Endpoint To MongoDB Pivot | Endpoint process-tree model | Generated |
+| `mongodb-auth-log-view.png` | Endpoint to MongoDB Pivot | Database activity model | Generated |
+| `crowdstrike-process-tree-view.png` | Endpoint to MongoDB Pivot | Endpoint process-tree model | Generated |
 | `tenable-criticality-view.png` | Exposure Context | Asset criticality model | Generated |
 
 ## Dashboard Path
@@ -50,10 +50,10 @@ node .\tools\generate-public-evidence-assets.mjs
 | Scenario | Primary Evidence | Supporting Evidence |
 |---|---|---|
 | Identity account takeover | `okta-system-log-view.png`, `google-admin-audit-view.png` | `datadog-test-harness-view.png` |
-| AWS credential misuse | `aws-cloudtrail-key-misuse-view.png`, `datadog-open-signals-view.png` | `datadog-cloud-siem-view.png` |
-| EKS secret access chain | `eks-cluster-active-live-view.png`, `eks-compute-live-view.png`, `eks-resources-live-view.png`, `secretsmanager-access-view.png` | `datadog-cloud-siem-view.png` |
+| AWS credential misuse | `aws-cloudtrail-key-misuse-view.png`, `datadog-open-signals-view.png` | `datadog-cloud-siem-view.png`, `datadog-test-harness-view.png` |
+| EKS secret access chain | `eks-cluster-active-live-view.png`, `eks-compute-live-view.png`, `eks-resources-live-view.png`, `secretsmanager-access-view.png` | `datadog-cloud-siem-view.png`, `datadog-test-harness-view.png` |
 | Endpoint to MongoDB pivot | `crowdstrike-process-tree-view.png`, `mongodb-auth-log-view.png` | `datadog-test-harness-view.png` |
-| S3 data access exfiltration | `aws-s3-console-view.png`, `datadog-open-signals-view.png` | `aws-cloudtrail-key-misuse-view.png` |
+| S3 data access exfiltration | `aws-s3-console-view.png`, `datadog-open-signals-view.png` | `aws-cloudtrail-key-misuse-view.png`, `datadog-test-harness-view.png` |
 
 ## Sanitization Rules
 

@@ -161,8 +161,8 @@ const assets = [
     metrics: [["Signals", "3"], ["MTTD", "53 sec"], ["Owner", "Cloud SOC"]],
     rows: [
       ["High", "New key source plus IAM change", "AWS Credential Misuse"],
-      ["High", "Sensitive S3 retrieval spike", "S3 Data Access"],
-      ["Critical", "Workload identity secret access", "EKS Secret Chain"],
+      ["High", "Sensitive S3 retrieval spike", "S3 Data Access Exfiltration"],
+      ["Critical", "Workload identity secret access", "EKS Secret Access Chain"],
       ["Info", "source:test-harness replay", "Synthetic validation"]
     ],
     steps: ["Log", "Rule", "Signal", "Owner", "Response"]
@@ -191,8 +191,11 @@ const assets = [
     status: "Synthetic",
     metrics: [["Replay", "Manual"], ["Tag", "synthetic:true"], ["Source", "test-harness"]],
     rows: [
-      ["identity_account_takeover", "5 events", "MFA and admin chain"],
+      ["identity_account_takeover", "6 events", "MFA and admin chain"],
+      ["aws_iam_key_misuse", "4 events", "New key and IAM change"],
+      ["eks_secret_access_chain", "4 events", "Workload secret chain"],
       ["endpoint_to_mongodb_pivot", "5 events", "Process and DB chain"],
+      ["s3_data_access_exfiltration", "3 events", "Object-access chain"],
       ["asset_context_enrichment", "8 assets", "Criticality support"],
       ["all", "Replay bundle", "Demo-safe validation"]
     ],

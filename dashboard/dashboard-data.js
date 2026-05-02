@@ -376,7 +376,7 @@ const APP_DATA = {
         {
           id: "datadog-test-harness",
           title: "Datadog Test Harness View",
-          useCase: "Synthetic validation for identity and endpoint-to-data scenarios",
+          useCase: "Synthetic replay validation across all five canonical scenarios",
           sourceLabel: "Synthetic validation",
           tone: "live",
           image: evidenceImage("datadog-test-harness-view"),

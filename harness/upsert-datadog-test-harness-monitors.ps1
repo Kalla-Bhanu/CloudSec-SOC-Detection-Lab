@@ -61,10 +61,10 @@ $monitors = @(
         tags = @("cloudsec", "test-harness", "synthetic", "identity-account-takeover")
     },
     @{
-        name = "CloudSec Test Harness - AWS IAM Key Misuse"
+        name = "CloudSec Test Harness - AWS Credential Misuse"
         type = "log alert"
         query = "logs(""source:test-harness @synthetic:true @purpose:detection-rule-validation @scenario:aws_iam_key_misuse"").index(""*"").rollup(""count"").last(""10m"") >= 1"
-        message = "Synthetic AWS IAM key misuse replay observed. This monitor only fires on test-harness events."
+        message = "Synthetic AWS credential misuse replay observed. This monitor only fires on test-harness events."
         tags = @("cloudsec", "test-harness", "synthetic", "aws-iam-key-misuse")
     },
     @{
@@ -75,10 +75,10 @@ $monitors = @(
         tags = @("cloudsec", "test-harness", "synthetic", "eks-secret-access-chain")
     },
     @{
-        name = "CloudSec Test Harness - Endpoint To MongoDB Pivot"
+        name = "CloudSec Test Harness - Endpoint to MongoDB Pivot"
         type = "log alert"
         query = "logs(""source:test-harness @synthetic:true @purpose:detection-rule-validation @scenario:endpoint_to_mongodb_pivot"").index(""*"").rollup(""count"").last(""10m"") >= 1"
-        message = "Synthetic endpoint-to-MongoDB pivot replay observed. This monitor only fires on test-harness events."
+        message = "Synthetic endpoint to MongoDB pivot replay observed. This monitor only fires on test-harness events."
         tags = @("cloudsec", "test-harness", "synthetic", "endpoint-to-mongodb-pivot")
     },
     @{
