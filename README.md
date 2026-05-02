@@ -1,5 +1,17 @@
 # CloudSec SOC Detection Lab
 
+[![License: All Rights Reserved](https://img.shields.io/badge/license-All%20Rights%20Reserved-red)](LICENSE)
+[![Live: Vercel](https://img.shields.io/badge/live-Vercel-black)](https://cloudsec-soc-detection-lab.vercel.app/dashboard/)
+[![Live: GitHub Pages](https://img.shields.io/badge/live-GitHub%20Pages-blue)](https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/)
+
+## Quick Links
+
+- [Live dashboard (Vercel)](https://cloudsec-soc-detection-lab.vercel.app/dashboard/)
+- [Live dashboard (GitHub Pages)](https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/)
+- [Demo walkthrough](docs/demo-walkthrough.md)
+- [Detection scenarios](#detection-scenarios)
+- [License](LICENSE)
+
 An AWS-first SOC detection engineering lab that shows how to design, validate, explain, and present five common security monitoring scenarios across cloud, identity, runtime, endpoint, and data-access surfaces.
 
 This is the public-safe portfolio version. It uses synthetic datasets, sanitized evidence visuals, lab-safe harness code, and public documentation only. It does not include private company names, tenant identifiers, private user data, real credentials, secret values, private prep notes, or production screenshots.
