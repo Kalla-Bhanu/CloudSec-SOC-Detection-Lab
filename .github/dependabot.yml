@@ -11,6 +11,8 @@ updates:
     open-pull-requests-limit: 5
     groups:
       npm-minor-patch:
+        patterns:
+          - "*"
         update-types:
           - "minor"
           - "patch"
@@ -25,6 +27,9 @@ updates:
     open-pull-requests-limit: 5
     groups:
       github-actions-minor-patch:
+        patterns:
+          - "*"
         update-types:
+          - "major"
           - "minor"
           - "patch"
