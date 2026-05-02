@@ -10,6 +10,7 @@
 - [Live dashboard (GitHub Pages)](https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/)
 - [Demo walkthrough](docs/demo-walkthrough.md)
 - [Reproducibility](docs/reproducibility.md)
+- [Evidence preservation and service retirement](docs/evidence-preservation-and-retirement.md)
 - [Maintenance checklist](docs/maintenance-checklist.md)
 - [Detection scenarios](#detection-scenarios)
 - [License](LICENSE)
@@ -55,6 +56,7 @@ tools/                Utility scripts for generated public-safe assets
 - Flowcharts: `docs/architecture-and-flowcharts.md`
 - Demo walkthrough: `docs/demo-walkthrough.md`
 - Reproducibility: `docs/reproducibility.md`
+- Evidence preservation and service retirement: `docs/evidence-preservation-and-retirement.md`
 - Maintenance checklist: `docs/maintenance-checklist.md`
 - Completion notes: `docs/completion-notes.md`
 - CLI/query examples: `docs/queries/cli-query-examples.md`

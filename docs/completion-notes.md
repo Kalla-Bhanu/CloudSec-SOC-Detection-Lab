@@ -36,6 +36,10 @@ External AWS and Datadog deployment scripts are included as reference material f
 - `source:test-harness` and `synthetic:true` are deliberate: they keep replay validation separate from vendor-native telemetry.
 - Local fixture-based CI is deliberate: it validates the public package without requiring live cloud or SaaS credentials.
 
+## Evidence Preservation
+
+Temporary paid lab services can be retired after final evidence capture and validation. The completed review surface remains in the public repository, dashboard, generated evidence assets, synthetic datasets, harness tests, walkthrough docs, and CI checks. The detailed boundary is documented in `docs/evidence-preservation-and-retirement.md`.
+
 ## License
 
 This repository is distributed under the terms in `LICENSE`.

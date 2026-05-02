@@ -26,6 +26,14 @@ npx --yes @tktco/node-actionlint
 - Security/sanitization changes: run the public-safe verifier and check that no private notes, real account IDs, credentials, logs, recordings, or screenshots were added.
 - Maintenance doc changes: verify the README and reproducibility links to this checklist still resolve.
 
+## Before Retiring Paid Lab Services
+
+- Re-run the checks in `docs/reproducibility.md`.
+- Confirm `docs/evidence-preservation-and-retirement.md` still matches the current repo scope.
+- Confirm the public dashboard URLs load without private credentials.
+- Confirm all evidence needed for review is already present in the repo or in a separate share location.
+- Keep private administrative records outside the public repository.
+
 ## Monthly Hygiene
 
 - Review Dependabot pull requests for npm and GitHub Actions updates.
