@@ -1,0 +1,102 @@
+name: Quality Gates
+
+on:
+  push:
+    branches:
+      - main
+      - "public-polish-*"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Python dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Check Python syntax
+        shell: bash
+        run: |
+          python - <<'PY'
+          import ast
+          import subprocess
+
+          files = subprocess.check_output(["git", "ls-files", "*.py"], text=True).splitlines()
+          for path in files:
+              with open(path, "r", encoding="utf-8") as handle:
+                  ast.parse(handle.read(), filename=path)
+          print(f"Parsed {len(files)} Python file(s).")
+          PY
+
+      - name: Check PowerShell syntax
+        shell: pwsh
+        run: |
+          $files = @(git ls-files '*.ps1')
+          foreach ($file in $files) {
+            $tokens = $null
+            $errors = $null
+            $path = (Resolve-Path -LiteralPath $file).Path
+            [System.Management.Automation.Language.Parser]::ParseFile($path, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              foreach ($errorRecord in $errors) {
+                Write-Error "${file}:$($errorRecord.Extent.StartLineNumber): $($errorRecord.Message)"
+              }
+              exit 1
+            }
+          }
+          Write-Host "Parsed $($files.Count) PowerShell script(s)."
+
+      - name: Check Node syntax
+        shell: bash
+        run: |
+          files="$(git ls-files '*.js' '*.mjs')"
+          if [ -z "$files" ]; then
+            echo "No JavaScript files found."
+            exit 0
+          fi
+
+          while IFS= read -r file; do
+            node --check "$file"
+          done <<< "$files"
+
+      - name: Run harness tests
+        run: python -B -m pytest --assert=plain -p no:cacheprovider
+
+      - name: Assert no test cache artifacts
+        shell: bash
+        run: |
+          if find . -type d \( -name "__pycache__" -o -name ".pytest_cache" \) -not -path "./.git/*" | grep -q .; then
+            echo "::error::Test cache directories found in working tree"
+            find . -type d \( -name "__pycache__" -o -name ".pytest_cache" \) -not -path "./.git/*"
+            exit 1
+          fi
+
+      - name: Run public-safe verifier
+        shell: pwsh
+        run: ./tools/verify-public-safe.ps1
