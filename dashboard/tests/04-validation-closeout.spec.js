@@ -6,11 +6,11 @@ const {
   openStage
 } = require("./helpers");
 
-const demoViews = [
+const closeoutViews = [
   {
     id: "run",
-    mode: "Run order",
-    expectedText: "Open the dashboard first and frame it as an evidence-led technical review."
+    mode: "Review sequence",
+    expectedText: "The dashboard remains the evidence-led technical review surface."
   },
   {
     id: "relaunch",
@@ -19,19 +19,19 @@ const demoViews = [
   },
   {
     id: "backups",
-    mode: "Backups",
+    mode: "Archive",
     expectedText: "okta-system-log-view.png"
   }
 ];
 
-test("switches demo readiness runbook views", async ({ page }) => {
+test("switches validation closeout runbook views", async ({ page }) => {
   const problems = collectPageProblems(page);
 
   await gotoDashboard(page);
-  await openStage(page, "Demo Readiness");
+  await openStage(page, "Validation Closeout");
 
-  for (const view of demoViews) {
-    await page.locator(`[data-demo-view="${view.id}"]`).click();
+  for (const view of closeoutViews) {
+    await page.locator(`[data-closeout-view="${view.id}"]`).click();
 
     await expect(page.locator(".context-chip").filter({ hasText: "Mode" })).toContainText(view.mode);
     await expect(page.locator(".number-list")).toContainText(view.expectedText);

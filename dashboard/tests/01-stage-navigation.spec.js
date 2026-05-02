@@ -7,7 +7,7 @@ const {
   gotoDashboard
 } = require("./helpers");
 
-test("walks the dashboard stage frame from scope to demo readiness", async ({ page }) => {
+test("walks the dashboard stage frame from scope to validation closeout", async ({ page }) => {
   const problems = collectPageProblems(page);
 
   await gotoDashboard(page);

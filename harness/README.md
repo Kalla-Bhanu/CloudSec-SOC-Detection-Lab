@@ -5,7 +5,7 @@ This tooling builds a clearly labeled synthetic replay pipeline for the non-AWS 
 What it is:
 - a detection rule test harness
 - a manual replay path for curated Okta, Google Workspace, CrowdStrike, MongoDB, and Tenable-shaped events
-- a Datadog-visible synthetic feed for validation and demo purposes
+- a Datadog-visible synthetic feed for validation purposes
 
 What it is not:
 - a rebuilt Okta integration
@@ -36,7 +36,7 @@ The five canonical replay scenarios are:
 
 ## Deploy
 
-The deployment commands below are reference deployment steps for users with their own AWS and Datadog accounts. They are not required for the public portfolio review, and they are not validated by this repository's continuous integration because they require live AWS and Datadog credentials supplied outside the repo.
+The deployment commands below are reference deployment steps for users with their own AWS and Datadog accounts. They are not required for public review, and they are not validated by this repository's continuous integration because they require live AWS and Datadog credentials supplied outside the repo.
 
 Review the generated IAM policy and keep all keys, tokens, and secret values outside the repository before adapting these commands.
 
@@ -72,8 +72,6 @@ powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Sce
 powershell -ExecutionPolicy Bypass -File ".\invoke-soclab-test-harness.ps1" -Scenario s3_data_access_exfiltration -Limit 6
 ```
 
-## Demo framing
+## Validation Role
 
-Use this as a test harness for detection validation:
-
-`I built a clearly labeled detection rule test harness that injects synthetic events shaped like the lab's non-AWS sources, so I can validate rule logic and demonstrate the detection patterns without relying on private vendor tenants.`
+The harness injects synthetic events shaped like the lab's non-AWS sources so detection logic can be validated without relying on private vendor tenants.

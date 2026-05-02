@@ -8,14 +8,16 @@
 
 - [Live dashboard (Vercel)](https://cloudsec-soc-detection-lab.vercel.app/dashboard/)
 - [Live dashboard (GitHub Pages)](https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/)
-- [Demo walkthrough](docs/demo-walkthrough.md)
+- [Build workflow](docs/build-workflow.md)
+- [Detection design notes](docs/detection-design-notes.md)
+- [ATT&CK coverage boundaries](docs/attack-coverage-boundaries.md)
 - [Reproducibility](docs/reproducibility.md)
 - [Evidence preservation and service retirement](docs/evidence-preservation-and-retirement.md)
 - [Maintenance checklist](docs/maintenance-checklist.md)
 - [Detection scenarios](#detection-scenarios)
 - [License](LICENSE)
 
-I built this as an AWS-first SOC case file: five suspicious paths, the proof behind each one, and the way I would walk a reviewer from signal to response. The lab covers identity pressure, cloud key misuse, EKS secret access, endpoint-to-data movement, and S3 access/exfiltration without exposing private tenant material.
+I built this as an AWS-first SOC case file: five suspicious paths, the proof behind each one, and the workflow from signal to response. The lab covers identity pressure, cloud key misuse, EKS secret access, endpoint-to-data movement, and S3 access/exfiltration without exposing private tenant material.
 
 This is the public-safe version of the work. The datasets are synthetic, the evidence visuals are sanitized or repo-owned, and the harness uses lab-safe replay events. It does not include private company names, tenant identifiers, private user data, real credentials, secret values, private prep notes, or production screenshots.
 
@@ -27,11 +29,13 @@ This is the public-safe version of the work. The datasets are synthetic, the evi
 - A Lambda-based synthetic event replay harness.
 - Datadog log and monitor validation patterns using `source:test-harness` and `synthetic:true`.
 - AWS investigation context around CloudTrail, IAM, STS, S3, Secrets Manager, EKS, and KMS.
-- Flowcharts, evidence templates, a demo runbook, and a presentation deck.
+- Detection design notes that explain telemetry assumptions, false-positive controls, and production extension paths.
+- Conservative ATT&CK coverage boundaries with validated, partial, and not-claimed technique handling.
+- Flowcharts, evidence templates, build notes, and a project overview deck.
 
 ## Why It Is Framed This Way
 
-I kept this repo as a case file instead of turning it into a monitor catalog. In a SOC review, the hard part is rarely pointing at one alert; it is explaining why the activity matters, what evidence supports it, and what response decision follows. The dashboard, evidence map, and walkthrough are built around that flow.
+I kept this repo as a case file instead of turning it into a monitor catalog. In SOC work, the hard part is rarely pointing at one alert; it is explaining why the activity matters, what evidence supports it, and what response decision follows. The dashboard, evidence map, and build notes are built around that flow.
 
 ## Detection Scenarios
 
@@ -46,7 +50,7 @@ I kept this repo as a case file instead of turning it into a monitor catalog. In
 ```text
 dashboard/            Static dashboard UI, evidence visuals, and local runner
 data/                 Synthetic CSV datasets used by the lab
-docs/                 Flowcharts, walkthroughs, query examples, and deck
+docs/                 Flowcharts, build notes, query examples, and deck
 harness/              Lambda and Datadog synthetic replay tooling
 evidence-templates/   Public-safe source templates for evidence panels
 tools/                Utility scripts for generated public-safe assets
@@ -58,14 +62,16 @@ tools/                Utility scripts for generated public-safe assets
 - Live dashboard (Vercel): `https://cloudsec-soc-detection-lab.vercel.app/dashboard/`
 - Dashboard: `dashboard/index.html`
 - Flowcharts: `docs/architecture-and-flowcharts.md`
-- Demo walkthrough: `docs/demo-walkthrough.md`
+- Build workflow: `docs/build-workflow.md`
+- Detection design notes: `docs/detection-design-notes.md`
+- ATT&CK coverage boundaries: `docs/attack-coverage-boundaries.md`
 - Reproducibility: `docs/reproducibility.md`
 - Evidence preservation and service retirement: `docs/evidence-preservation-and-retirement.md`
 - Maintenance checklist: `docs/maintenance-checklist.md`
 - Completion notes: `docs/completion-notes.md`
 - CLI/query examples: `docs/queries/cli-query-examples.md`
 - Evidence manifest: `evidence-templates/asset-manifest.md`
-- Presentation deck: `docs/deck/cloudsec-soc-detection-lab.pptx`
+- Project overview deck: `docs/deck/cloudsec-soc-detection-lab.pptx`
 
 ## Run The Dashboard Locally
 
@@ -114,7 +120,7 @@ synthetic scenario event
 -> analyst triage and response workflow
 ```
 
-The intent is not to claim production coverage. The intent is to show the detection-engineering flow: scenario design, signal generation, monitor validation, evidence handling, triage, escalation, and presentation.
+The intent is not to claim production coverage. The intent is to show the detection-engineering flow: scenario design, signal generation, monitor validation, evidence handling, triage, escalation, and response.
 
 ## Privacy And Safety
 
@@ -128,4 +134,4 @@ This repository is intentionally sanitized:
 - No secret values.
 - No binary exports from private preparation material.
 
-All datasets, visuals, examples, and deck content are synthetic or rewritten for portfolio use.
+All datasets, visuals, examples, and deck content are synthetic or rewritten for public review.

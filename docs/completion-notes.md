@@ -4,15 +4,15 @@
 
 This repository is a solo-built synthetic SOC detection engineering lab covering five canonical scenarios across cloud, identity, runtime, endpoint, and data-access surfaces. It is public-safe and fixture-tested: the datasets, evidence visuals, harness events, and dashboard content are synthetic or sanitized for review without private tenants or production screenshots.
 
-The package shows the detection-engineering flow I wanted to preserve: scenario design, signal generation, monitor validation patterns, triage pivots, evidence handling, and analyst handoff. It does not claim production SOC coverage or live coverage across every vendor shown in the public-safe context panels.
+The package shows the detection-engineering flow I built: scenario design, signal generation, monitor validation patterns, triage pivots, evidence handling, and analyst handoff. It does not claim production SOC coverage or live coverage across every vendor shown in the public-safe context panels.
 
 ## Components
 
-- Dashboard: `dashboard/` contains the static review surface, local runner, evidence catalog, detection scenario views, and demo readiness view.
+- Dashboard: `dashboard/` contains the static review surface, local runner, evidence catalog, detection scenario views, and validation closeout view.
 - Synthetic data: `data/` contains CSV fixtures shaped around alert, identity, cloud, endpoint, asset, and timeline records.
 - Evidence assets: `evidence-templates/` contains public-safe source templates and proof maps; generated dashboard visuals live under `dashboard/assets/evidence/`.
 - Harness: `harness/` contains the Lambda-style replay harness, invocation helpers, monitor reference script, and contract tests.
-- Documentation: `docs/` contains architecture flowcharts, demo walkthrough, query examples, reproducibility notes, and presentation materials.
+- Documentation: `docs/` contains architecture flowcharts, build workflow, query examples, reproducibility notes, and project overview materials.
 - CI: `.github/workflows/quality.yml` runs the maintained quality-gate workflow for syntax checks, harness tests, public-safe checks, and dashboard smoke tests.
 
 ## Validation Surface
@@ -32,13 +32,13 @@ External AWS and Datadog deployment scripts are included as reference material f
 ## Scope Choices
 
 - Synthetic fixtures are deliberate: they keep the package reproducible without private tenant access.
-- Public-safe evidence panels are deliberate: they preserve proof structure without exposing environment-specific screenshots.
+- Public-safe evidence panels are deliberate: they keep proof structure without exposing environment-specific screenshots.
 - `source:test-harness` and `synthetic:true` are deliberate: they keep replay validation separate from vendor-native telemetry.
 - Local fixture-based CI is deliberate: it validates the public package without requiring live cloud or SaaS credentials.
 
 ## Evidence Preservation
 
-Temporary paid lab services can be retired after final evidence capture and validation. The completed review surface remains in the public repository, dashboard, generated evidence assets, synthetic datasets, harness tests, walkthrough docs, and CI checks. The detailed boundary is documented in `docs/evidence-preservation-and-retirement.md`.
+Temporary paid lab services can be retired after final evidence capture and validation. The completed review surface remains in the public repository, dashboard, generated evidence assets, synthetic datasets, harness tests, build notes, and CI checks. The detailed boundary is documented in `docs/evidence-preservation-and-retirement.md`.
 
 ## License
 

@@ -21,7 +21,7 @@ const state = {
   scenarioId: firstScenarioId,
   executionPlatform: APP_DATA.platformStatus[0].name,
   executionView: "overview",
-  demoView: "run",
+  closeoutView: "run",
   logicView: "logic"
 };
 
@@ -38,7 +38,7 @@ const render = () => {
     selectEvidenceItem,
     selectScenario,
     selectLogicView,
-    selectDemoView
+    selectCloseoutView
   });
 };
 
@@ -86,8 +86,8 @@ const selectLogicView = (logicView) => {
   render();
 };
 
-const selectDemoView = (demoView) => {
-  state.demoView = demoView;
+const selectCloseoutView = (closeoutView) => {
+  state.closeoutView = closeoutView;
   render();
 };
 

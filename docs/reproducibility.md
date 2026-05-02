@@ -1,6 +1,6 @@
 # Reproducibility
 
-This document defines the supported public reproduction path for the CloudSec SOC Detection Lab. It is the path a reviewer can use to clone the repo, install dependencies, run the local validation suite, and open the dashboard without private tenants or credentials.
+This document defines the supported public reproduction path for the CloudSec SOC Detection Lab. It is the path for cloning the repo, installing dependencies, running the local validation suite, and opening the dashboard without private tenants or credentials.
 
 For ongoing upkeep after future edits, use `docs/maintenance-checklist.md`.
 
@@ -96,7 +96,7 @@ Then open the local URL printed by the script:
 http://127.0.0.1:4174/
 ```
 
-The Playwright suite uses a separate test port by default so the smoke tests do not collide with the common local demo port.
+The Playwright suite uses a separate test port by default so the smoke tests do not collide with the common local dashboard port.
 
 ## What Is Not Reproduced Locally
 
@@ -106,6 +106,6 @@ This is intentional. The public package shows the detection-engineering flow wit
 
 ## External Deployment Context
 
-The harness directory includes reference deployment scripts for users with their own AWS and Datadog accounts. Those scripts are not required for portfolio review, and external deployment is not validated by this repository's continuous integration because it requires live AWS and Datadog credentials supplied outside the repo.
+The harness directory includes reference deployment scripts for users with their own AWS and Datadog accounts. Those scripts are not required for public review, and external deployment is not validated by this repository's continuous integration because it requires live AWS and Datadog credentials supplied outside the repo.
 
 Local fixture-based validation is the supported correctness surface. If you adapt the external scripts, review the IAM policy first, keep credentials outside the repository, use a disposable lab account where possible, and expect to adjust names, regions, secret locations, and Datadog site settings for your environment.

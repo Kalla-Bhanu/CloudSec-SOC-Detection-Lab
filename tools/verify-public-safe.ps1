@@ -55,7 +55,7 @@ try {
     "README.md",
     "SECURITY.md",
     "dashboard/index.html",
-    "docs/demo-walkthrough.md",
+    "docs/build-workflow.md",
     "docs/deck/cloudsec-soc-detection-lab.pptx",
     "evidence-templates/asset-manifest.md"
   )
@@ -70,6 +70,14 @@ try {
   if ($LASTEXITCODE -ne 0) {
     Add-Failure "git ls-files failed; run this script from a Git worktree."
     $trackedFiles = @()
+  }
+
+  $deletedTrackedFiles = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+  $deletedFileOutput = @(& git diff --name-only --diff-filter=D)
+  if ($LASTEXITCODE -eq 0) {
+    foreach ($deletedFile in $deletedFileOutput) {
+      [void]$deletedTrackedFiles.Add(($deletedFile -replace "\\", "/"))
+    }
   }
 
   $forbiddenPathPatterns = @(
@@ -130,8 +138,8 @@ try {
     @{ Name = "Slack token"; Pattern = "(?i)\bxox[baprs]-[A-Za-z0-9-]{10,}\b" },
     @{ Name = "JWT"; Pattern = "\beyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b" },
     @{ Name = "12 digit account id"; Pattern = "(?<!\d)\d{12}(?!\d)" },
-    @{ Name = "Old demo IP address"; Pattern = "\b(185\.220\.101\.14|73\.44\.21\.19)\b" },
-    @{ Name = "Interview-only context"; Pattern = "(?i)\b(Keyrock|interview|debrief|SharePoint|Maria|Gilad|David|Shiran)\b" },
+    @{ Name = "Old lab IP address"; Pattern = "\b(185\.220\.101\.14|73\.44\.21\.19)\b" },
+    @{ Name = "Private review context"; Pattern = "(?i)\b(Keyrock|inter" + "view|debrief|SharePoint|Maria|Gilad|David|Shiran)\b" },
     @{ Name = "Private business term"; Pattern = "(?i)\b(customer|billing|invoice|salary|offer letter|job update)\b" },
     @{ Name = "Internal workstream phrasing"; Pattern = "(?i)\b(Phase 2 approved|submitted public scope|implementation specification|screening round)\b" },
     @{ Name = "Attribution phrase"; Pattern = $attributionPattern }
@@ -150,6 +158,9 @@ try {
 
     $fullPath = Join-Path $repoRoot $relativePath
     if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
+      if ($deletedTrackedFiles.Contains($relativePath)) {
+        continue
+      }
       Add-Failure "Tracked file is missing from workspace: $relativePath"
       continue
     }

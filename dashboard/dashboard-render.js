@@ -173,7 +173,7 @@ const renderBrief = () => `
     { label: "Scenario coverage", value: "100%", note: "Five of five lab paths are implemented" },
     { label: "Surface spread", value: "10", note: "Identity, cloud, runtime, endpoint, and data" },
     { label: "Artifact mapping", value: "18", note: "Mapped into the evidence manifest" },
-    { label: "Review stages", value: "5", note: "Scope, environment, evidence, logic, and demo" }
+    { label: "Review stages", value: "5", note: "Scope, environment, evidence, logic, and closeout" }
   ]), "Overview")}
   ${card("Domain Matrix", compactTable(
     ["Domain", "Primary surfaces", "Proof posture", "Review role"],
@@ -197,18 +197,18 @@ const renderBrief = () => `
     { title: "Environment", note: "Validated surfaces and current runtime posture" },
     { title: "Evidence", note: "Artifacts mapped to use cases" },
     { title: "Logic", note: "Scenario engineering and query pivots" },
-    { title: "Demo", note: "Run order, controlled replay path, and fallback proof" }
+    { title: "Closeout", note: "Validation sequence, controlled replay path, and evidence archive" }
   ]), "Flow")}
   ${card("Signal Architecture", signalChain([
     { title: "Identity context", note: "Identity and workspace admin context support the human-side review when available" },
     { title: "Cloud control plane", note: "CloudTrail, S3, and Secrets access surfaces" },
     { title: "Correlation layer", note: "Datadog signals and cross-platform context" },
     { title: "Runtime path", note: "EKS cluster, workload, and secret retrieval chain" },
-    { title: "Analyst closeout", note: "Evidence archive, appendix, and demo runbook" }
+      { title: "Analyst closeout", note: "Evidence archive, appendix, and response packet" }
   ]), "Architecture")}
   ${card("Architecture Decisions", listHtml(APP_DATA.architectureHighlights), "Design")}
   <div class="grid two-col">
-    ${card("Review Standards", listHtml(APP_DATA.recruiterNotes), "Posture")}
+    ${card("Review Standards", listHtml(APP_DATA.reviewNotes), "Posture")}
     ${card("Platform Map", pillGrid(APP_DATA.platformNames), "Coverage")}
   </div>
   ${card("Scenario Coverage Matrix", matrixTable(
@@ -242,7 +242,7 @@ const renderExecution = (state, actions) => {
       { label: "AWS runtime", value: "Rebuilt" },
       { label: "Residual cost", value: "Controlled" },
       { label: "Archive state", value: "Ready" },
-      { label: "Demo-day mode", value: "Validated + synthetic" }
+      { label: "Review mode", value: "Validated + synthetic" }
     ])}
     <div class="grid two-col">
       ${card("Runtime Metrics", statGrid(APP_DATA.awsCurrentMetrics), "AWS State")}
@@ -270,7 +270,7 @@ const renderExecution = (state, actions) => {
     ${card("Runtime Decision Path", signalChain([
       { title: "Prepare surfaces", note: "Confirm the audit, secrets, runtime, and forwarding path" },
       { title: "Verify telemetry", note: "Confirm logs, secrets access, and workload telemetry are real" },
-      { title: "Preserve proof", note: "Keep archived screenshots and mapped evidence as the fallback layer" },
+      { title: "Archive proof", note: "Keep archived screenshots and mapped evidence as the fallback layer" },
       { title: "Control cost", note: "Keep teardown-ready notes for billable runtime after the review" }
     ]), "Operations")}
   `;
@@ -320,22 +320,22 @@ const renderExecution = (state, actions) => {
       { label: "Runtime control", value: "Focused" },
       { label: "Cloud rebuild", value: "Completed" },
       { label: "Runtime target", value: "AWS + Datadog lab path" },
-      { label: "Cleanup rule", value: "Delete after demo" }
+      { label: "Cleanup rule", value: "Delete after validation" }
     ])}
     <div class="grid two-col">
       ${card("AWS Runtime Sequence", `
         <ol class="number-list">
-          ${APP_DATA.demoPlan.relaunch.map((item) => `<li>${item}</li>`).join("")}
+          ${APP_DATA.closeoutPlan.relaunch.map((item) => `<li>${item}</li>`).join("")}
         </ol>
       `, "Runbook")}
       ${card("Runtime Scope", taxonomyGrid([
-        { label: "Keep live", value: "CloudTrail / Secrets / EKS", note: "These rebuilt surfaces now support the review path directly" },
+        { label: "Keep live", value: "CloudTrail / Secrets / EKS", note: "These rebuilt surfaces now support technical validation directly" },
         { label: "Keep honest", value: "Identity / workspace feeds", note: "Datadog-style queries, monitors, and signals are verified; context panels are not native feed claims" },
         { label: "Do not overclaim", value: "Detection content restored", note: "Data sources existing is not the same as rule coverage" },
-        { label: "Post-demo", value: "Delete again", note: "Return the account to a lower-cost baseline after the review" }
+        { label: "Retirement", value: "Delete again", note: "Return the account to a lower-cost baseline after validation" }
       ]), "Control")}
     </div>
-    ${card("Demo-Day Control Board", matrixTable(
+    ${card("Review Control Board", matrixTable(
       ["Before review", "During review", "After review"],
       [
         { label: "AWS state", values: ["Validated lab surfaces", "Dashboard plus optional console proof", "Public-safe archive remains"] },
@@ -508,25 +508,25 @@ const renderLogic = (state) => {
   `;
 };
 
-const renderDemo = (state) => {
+const renderCloseout = (state) => {
   const currentItems =
-    state.demoView === "run" ? APP_DATA.demoPlan.openSequence :
-    state.demoView === "relaunch" ? APP_DATA.demoPlan.relaunch :
-    APP_DATA.demoPlan.backups;
+    state.closeoutView === "run" ? APP_DATA.closeoutPlan.openSequence :
+    state.closeoutView === "relaunch" ? APP_DATA.closeoutPlan.relaunch :
+    APP_DATA.closeoutPlan.backups;
 
   return `
     ${contextBar([
-      { label: "Mode", value: state.demoView === "run" ? "Run order" : state.demoView === "relaunch" ? "Runtime control" : "Backups" },
+      { label: "Mode", value: state.closeoutView === "run" ? "Review sequence" : state.closeoutView === "relaunch" ? "Runtime control" : "Archive" },
       { label: "Primary surface", value: "Dashboard" },
-      { label: "Fallback", value: "Archive" },
-      { label: "Demo risk", value: "Controlled" }
+      { label: "Fallback", value: "Evidence archive" },
+      { label: "Review risk", value: "Controlled" }
     ])}
     <div class="grid two-col">
       ${card("Readiness Metrics", statGrid([
-        { label: "Walkthrough stages", value: "5", note: "Scope to closeout" },
-        { label: "Primary live tabs", value: String(APP_DATA.demoPlan.liveTabs.length), note: "Only open when they add proof" },
-        { label: "Backup artifacts", value: String(APP_DATA.demoPlan.backups.length), note: "Ready if any vendor tab slows down" },
-        { label: "Control tasks", value: String(APP_DATA.demoPlan.relaunch.length), note: "Concrete runtime-control tasks for the public lab environment" }
+        { label: "Review stages", value: "5", note: "Scope to closeout" },
+        { label: "Primary proof tabs", value: String(APP_DATA.closeoutPlan.liveTabs.length), note: "Only open when they add proof" },
+        { label: "Archive artifacts", value: String(APP_DATA.closeoutPlan.backups.length), note: "Ready if any external tab slows down" },
+        { label: "Control tasks", value: String(APP_DATA.closeoutPlan.relaunch.length), note: "Concrete runtime-control tasks for the public lab environment" }
       ]), "Control")}
       ${card("Execution Board", compactTable(
         ["Step", "Primary surface", "Fallback"],
@@ -534,21 +534,21 @@ const renderDemo = (state) => {
           ["Open", "Dashboard home and stage navigation", "None needed"],
           ["Evidence", "Evidence Catalog", "Archived screenshots"],
           ["Logic", "Detection Engineering", "Query appendix"],
-          ["Closeout", "Demo Readiness", "Timeline and archive"]
+          ["Closeout", "Validation Closeout", "Timeline and archive"]
         ]
       ), "Sequence")}
     </div>
     ${card("Review Runbook", `
       ${buttonGroup([
-        { label: "Run Order", value: "run" },
+        { label: "Review Sequence", value: "run" },
         { label: "Runtime Control", value: "relaunch" },
-        { label: "Backups", value: "backups" }
-      ], state.demoView, "data-demo-view")}
+        { label: "Archive", value: "backups" }
+      ], state.closeoutView, "data-closeout-view")}
       <ol class="number-list">
         ${currentItems.map((item) => `<li>${item}</li>`).join("")}
       </ol>
     `, "Runbook")}
-    ${card("Demo Sequence", flowTrack([
+    ${card("Review Sequence", flowTrack([
       { title: "Open dashboard", note: "Use this as the main review surface" },
       { title: "Evidence drill-in", note: "Show artifacts before external tabs" },
       { title: "Detection logic", note: "Walk scenarios in lab order" },
@@ -556,7 +556,7 @@ const renderDemo = (state) => {
       { title: "Closeout", note: "Runtime-control and fallback plan" }
     ]), "Flow")}
     <div class="grid two-col">
-      ${card("Primary Proof Tabs", listHtml(APP_DATA.demoPlan.liveTabs), "Proof Tabs")}
+      ${card("Primary Proof Tabs", listHtml(APP_DATA.closeoutPlan.liveTabs), "Proof Tabs")}
       ${card("Operational Constraints", `
         <ul class="bullet-list">
           <li>Use the dashboard as the primary review surface.</li>
@@ -572,7 +572,7 @@ const renderDemo = (state) => {
         { label: "Identity review", values: ["Dashboard + evidence group", "Identity / workspace context", "Evidence archive"] },
         { label: "Cloud review", values: ["Dashboard + logic stage", "AWS / Datadog-style proof", "Cloud proof visuals"] },
         { label: "Runtime review", values: ["Dashboard + runtime status", "EKS live view", "Archived EKS proof"] },
-        { label: "Closeout", values: ["Demo readiness stage", "None required", "Timeline visual"] }
+        { label: "Closeout", values: ["Validation closeout stage", "None required", "Timeline visual"] }
       ]
     ), "Run Control")}
   `;
@@ -656,8 +656,8 @@ const renderStageBody = (state, actions) => {
     case "logic":
       html = renderLogic(state);
       break;
-    case "demo":
-      html = renderDemo(state);
+    case "closeout":
+      html = renderCloseout(state);
       break;
     default:
       html = renderBrief();
@@ -683,8 +683,8 @@ const renderStageBody = (state, actions) => {
   node.querySelectorAll("[data-logic-view]").forEach((button) => {
     button.addEventListener("click", () => actions.selectLogicView(button.dataset.logicView));
   });
-  node.querySelectorAll("[data-demo-view]").forEach((button) => {
-    button.addEventListener("click", () => actions.selectDemoView(button.dataset.demoView));
+  node.querySelectorAll("[data-closeout-view]").forEach((button) => {
+    button.addEventListener("click", () => actions.selectCloseoutView(button.dataset.closeoutView));
   });
 };
 

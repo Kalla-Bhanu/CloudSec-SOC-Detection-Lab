@@ -22,8 +22,8 @@ test("emits no console errors or page errors during a full dashboard sweep", asy
   await openStage(page, "Detection Engineering");
   await page.locator('[data-scenario-id="eks_secret_access_chain"]').click();
   await page.locator('[data-logic-view="query"]').click();
-  await openStage(page, "Demo Readiness");
-  await page.locator('[data-demo-view="backups"]').click();
+  await openStage(page, "Validation Closeout");
+  await page.locator('[data-closeout-view="backups"]').click();
 
   expectCleanPage(problems);
 });

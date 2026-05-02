@@ -1,7 +1,7 @@
 const { defineConfig, devices } = require("@playwright/test");
 
 // Keep the smoke-test server clear of the dashboard's common local port.
-const port = Number(process.env.DASHBOARD_TEST_PORT || 4175);
+const port = Number(process.env.DASHBOARD_TEST_PORT || 43175);
 const baseURL = `http://127.0.0.1:${port}`;
 
 module.exports = defineConfig({

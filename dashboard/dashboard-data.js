@@ -12,7 +12,7 @@ const STAGES = [
     id: "execution",
     index: 2,
     title: "Environment Status",
-    summary: "Show rebuilt lab state, verified telemetry surfaces, and honest boundaries around live demonstration."
+    summary: "Show rebuilt lab state, verified telemetry surfaces, and honest boundaries around technical validation."
   },
   {
     id: "evidence",
@@ -27,10 +27,10 @@ const STAGES = [
     summary: "Review the five scenarios, their correlation logic, proof anchors, query pivots, and response posture."
   },
   {
-    id: "demo",
+    id: "closeout",
     index: 5,
-    title: "Demo Readiness",
-    summary: "Close on the run sequence, controlled replay path, and backup proof required for a stable demonstration."
+    title: "Validation Closeout",
+    summary: "Close on the validation sequence, controlled replay path, and evidence archive that keeps the lab reviewable."
   }
 ];
 
@@ -75,7 +75,7 @@ const APP_DATA = {
     "CLI and query appendix",
     "Lambda-based detection test harness",
     "Public-safe evidence visuals",
-    "Presentation deck aligned to the same technical story"
+    "Project overview deck aligned to the same technical story"
   ],
   packageCrossCheck: [
     "Review flow matches the public lab scope",
@@ -86,7 +86,7 @@ const APP_DATA = {
   architectureHighlights: [
     "Normalized scenario set fixed to the lab scope",
     "Proof assets mapped per platform and per scenario",
-    "AWS runtime path documented with explicit live, context, and preserved labels",
+    "AWS runtime path documented with explicit live, context, and retired-service labels",
     "Synthetic validation separated from vendor-native integrations by source:test-harness labeling",
     "Dashboard starts broad, then narrows into evidence and detection logic",
     "Supplementary surfaces stay narrow where direct live proof is not claimed"
@@ -102,7 +102,7 @@ const APP_DATA = {
   awsCurrentMetrics: [
     { label: "Modeled AWS services", value: "8", note: "CloudTrail, S3, Secrets Manager, GuardDuty, Security Hub, EKS, Lambda, and EventBridge" },
     { label: "Telemetry paths", value: "5", note: "Audit events, secret reads, runtime context, data access, and harness replay" },
-    { label: "Native IdP feed claim", value: "0", note: "Identity context is not presented as a live vendor-native Datadog feed" },
+    { label: "Native IdP feed claim", value: "0", note: "Identity context is not described as a live vendor-native Datadog feed" },
     { label: "Residual risk", value: "Controlled", note: "The lab is safe to review because all public evidence is synthetic or sanitized" }
   ],
   truthCards: [
@@ -110,7 +110,7 @@ const APP_DATA = {
       label: "Validated lab chain",
       value: "AWS, Datadog, Detection Test Harness",
       tone: "live",
-      note: "These are the surfaces presented as the main technical path: audit events, replay harness, log review, and monitor validation."
+      note: "These are the surfaces documented as the main technical path: audit events, replay harness, log review, and monitor validation."
     },
     {
       label: "Cloud runtime model",
@@ -144,13 +144,13 @@ const APP_DATA = {
     }
   ],
   executionCautions: [
-    "Do not present the dashboard as a live connector pulling streaming telemetry.",
+    "Do not describe the dashboard as a live connector pulling streaming telemetry.",
     "Use live browser tabs only to reinforce a proof point already established in the dashboard.",
     "Do not claim vendor-native feed parity for identity, workspace, endpoint, database, or exposure tools.",
     "Do not describe synthetic replay rows as real tenant telemetry.",
     "Keep source:test-harness and synthetic:true visible when discussing replay validation.",
     "Keep CrowdStrike and Tenable framed as supporting panels during Q&A.",
-    "Keep private company names, tenant identifiers, screenshots, and secret values out of the public walkthrough."
+    "Keep private company names, tenant identifiers, screenshots, and secret values out of the public dashboard."
   ],
   platformStatus: [
     {
@@ -219,15 +219,15 @@ const APP_DATA = {
   ],
   guardrails: [
     "No real company name, tenant name, account ID, private user data, credential, or secret value is included.",
-    "No synthetic incident rows should be presented as real tenant telemetry.",
+    "No synthetic incident rows should be described as real tenant telemetry.",
     "Any replayed content must stay visibly labeled as source:test-harness and synthetic:true.",
     "Context panels are not vendor-native integration claims.",
     "Endpoint and exposure panels are supporting evidence, not production incident views.",
     "The public repo shows detection-engineering flow, not production coverage."
   ],
-  recruiterNotes: [
+  reviewNotes: [
     "Every scenario is tied to a proof source, a response stance, and a technical pivot path.",
-    "The dashboard establishes the map before the walkthrough opens any detailed evidence.",
+    "The dashboard establishes the map before detailed evidence opens.",
     "Synthetic validation is separated from live integration claims by explicit labeling.",
     "The application stands on its own as a technical review surface."
   ],
@@ -405,7 +405,7 @@ const APP_DATA = {
           sourceLabel: "Curated visual",
           tone: "curated",
           image: evidenceImage("analyst-checklist"),
-          description: "Summarizes the first-five-minutes analyst logic in a review-friendly format."
+          description: "Summarizes the initial analyst triage logic in a compact format."
         },
         {
           id: "escalation-outline",
@@ -536,13 +536,13 @@ const APP_DATA = {
       response: "Validate the principal, scope touched objects, and constrain bucket access when the path stays novel and material."
     }
   ],
-  demoPlan: {
+  closeoutPlan: {
     openSequence: [
-      "Open the dashboard first and frame it as an evidence-led technical review.",
+      "The dashboard remains the evidence-led technical review surface.",
       "Move to Environment Status and set expectations around validated, contextual, and supporting surfaces.",
       "Use Evidence Catalog to prove the public-safe artifact map, then call out the Detection Test Harness as synthetic validation.",
-      "Use Detection Engineering to walk the five scenarios in the lab order.",
-      "Close on demo controls, query pivots, and the backup evidence archive."
+      "Use Detection Engineering to inspect the five scenarios in the lab order.",
+      "Close on validation controls, query pivots, and the evidence archive."
     ],
     liveTabs: [
       "Dashboard local view",
@@ -555,7 +555,7 @@ const APP_DATA = {
     relaunch: [
       "Use the public-safe dashboard as the primary run surface",
       "Keep source:test-harness visible when showing synthetic replay",
-      "Refresh evidence visuals only if a new public-safe capture improves the story",
+      "Refresh evidence visuals only if a new public-safe capture improves the evidence map",
       "Use the harness for safe replay instead of claiming unavailable vendor-native feeds",
       "Remove any environment-specific screenshots, tenant names, or secret values before publishing"
     ],
@@ -577,10 +577,10 @@ const APP_DATA = {
       note: "The review starts from delivered work, not from a fictional live feed.",
       image: evidenceImage("architecture-coverage-map")
     },
-    demo: {
-      kicker: "Review backup proof",
+    closeout: {
+      kicker: "Review evidence archive",
       title: "Annotated investigation timeline",
-      note: "A preserved visual closeout if any live tab is slow, gated, or unavailable during the demo.",
+      note: "A durable visual closeout if any external tab is slow, gated, or unavailable.",
       image: evidenceImage("incident-timeline-annotated")
     }
   }

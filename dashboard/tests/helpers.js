@@ -5,7 +5,7 @@ const STAGES = [
   { title: "Environment Status", progress: "Stage 2 of 5" },
   { title: "Evidence Catalog", progress: "Stage 3 of 5" },
   { title: "Detection Engineering", progress: "Stage 4 of 5" },
-  { title: "Demo Readiness", progress: "Stage 5 of 5" }
+  { title: "Validation Closeout", progress: "Stage 5 of 5" }
 ];
 
 function collectPageProblems(page) {

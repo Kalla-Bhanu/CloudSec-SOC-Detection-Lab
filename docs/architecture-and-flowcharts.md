@@ -93,7 +93,7 @@ flowchart LR
   A[Alert or replay event] --> B[Pick scenario]
   B --> C[Open mapped evidence visual]
   C --> D[Run query pivot]
-  D --> E[Preserve strongest proof]
+  D --> E[Capture strongest proof]
   E --> F[Estimate blast radius]
   F --> G[Choose response bias]
   G --> H[Write escalation packet]
@@ -102,22 +102,22 @@ flowchart LR
   I --> J[No environment-specific screenshots or tenant identifiers]
 ```
 
-## Demo Run Order
+## Technical Review Sequence
 
 ```mermaid
 sequenceDiagram
-  participant Presenter
+  participant Reader
   participant Dashboard
   participant Evidence
   participant Harness
-  participant Reviewer
+  participant Response
 
-  Presenter->>Dashboard: Open System Scope
-  Presenter->>Dashboard: Move to Environment Status
-  Presenter->>Evidence: Show mapped artifact group
-  Presenter->>Dashboard: Walk Detection Engineering scenarios
-  Presenter->>Harness: Explain source:test-harness replay boundary
-  Presenter->>Reviewer: Close with runbook, guardrails, and escalation packet
+  Reader->>Dashboard: Open System Scope
+  Reader->>Dashboard: Move to Environment Status
+  Reader->>Evidence: Inspect mapped artifact group
+  Reader->>Dashboard: Review Detection Engineering scenarios
+  Reader->>Harness: Check source:test-harness replay boundary
+  Reader->>Response: Close with guardrails and escalation packet
 ```
 
 ## Analyst Decision Gates

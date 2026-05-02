@@ -7,9 +7,9 @@ This manifest tracks the public-safe visual evidence package used by the dashboa
 | Asset | Scenario Or Page | Role | Status |
 |---|---|---|---|
 | `architecture-coverage-map.png` | System Scope | Architecture coverage map | Generated |
-| `analyst-checklist.png` | Triage Workflow | First-five-minutes checklist | Generated |
+| `analyst-checklist.png` | Triage Workflow | Initial analyst checklist | Generated |
 | `escalation-packet-outline.png` | Triage Workflow | Escalation packet structure | Generated |
-| `incident-timeline-annotated.png` | Demo Readiness | Timeline closeout visual | Generated |
+| `incident-timeline-annotated.png` | Validation Closeout | Timeline closeout visual | Generated |
 | `okta-system-log-view.png` | Identity Account Takeover | Identity system-log model | Generated |
 | `google-admin-audit-view.png` | Identity Account Takeover | Workspace admin audit model | Generated |
 | `aws-cloudtrail-key-misuse-view.png` | AWS Credential Misuse | CloudTrail key-misuse model | Generated |

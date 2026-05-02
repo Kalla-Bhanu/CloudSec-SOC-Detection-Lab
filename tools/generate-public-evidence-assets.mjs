@@ -62,7 +62,7 @@ const assets = [
     rows: [
       ["1", "Confirm entity", "User, workload, host, or service account"],
       ["2", "Measure novelty", "Source, geography, API path, or process chain"],
-      ["3", "Preserve proof", "Keep the strongest event before pivoting"],
+      ["3", "Capture proof", "Keep the strongest event before pivoting"],
       ["4", "Estimate blast radius", "Asset criticality and touched data"],
       ["5", "Choose next move", "Contain, validate, or escalate"],
       ["6", "Assign owner", "Set next proof target and time expectation"]
@@ -208,7 +208,7 @@ const assets = [
       ["endpoint_to_mongodb_pivot", "5 events", "Process and DB chain"],
       ["s3_data_access_exfiltration", "3 events", "Object-access chain"],
       ["asset_context_enrichment", "8 assets", "Criticality support"],
-      ["all", "Replay bundle", "Demo-safe validation"]
+      ["all", "Replay bundle", "Public-safe validation"]
     ],
     steps: ["CSV row", "Lambda", "Datadog log", "Monitor"]
   },
@@ -218,9 +218,9 @@ const assets = [
     subtitle: "Runtime scenario view using placeholder cluster, namespace, and workload names.",
     accent: "#0b7285",
     status: "Runtime",
-    metrics: [["Cluster", "workload-demo"], ["Region", "us-east-1"], ["Mode", "Lab"]],
+    metrics: [["Cluster", "workload-lab"], ["Region", "us-east-1"], ["Mode", "Lab"]],
     rows: [
-      ["Cluster", "workload-demo", "Active control-plane model"],
+      ["Cluster", "workload-lab", "Active control-plane model"],
       ["Namespace", "critical-service", "Scenario scope"],
       ["Service account", "app-runtime-sa", "Identity under review"],
       ["Audit", "token activity", "Mapped to CloudTrail path"]
@@ -233,7 +233,7 @@ const assets = [
     subtitle: "Compute context used to explain workload placement and blast radius.",
     accent: "#0b7285",
     status: "Runtime",
-    metrics: [["Node group", "demo-nodes"], ["Pods", "4"], ["Namespace", "critical-service"]],
+    metrics: [["Node group", "lab-nodes"], ["Pods", "4"], ["Namespace", "critical-service"]],
     rows: [
       ["node-a", "Ready", "Workload capable"],
       ["node-b", "Ready", "Replica placement"],
@@ -311,7 +311,7 @@ const assets = [
     status: "Support",
     metrics: [["Assets", "8"], ["Critical", "4"], ["Internet-facing", "2"]],
     rows: [
-      ["workload-demo-cluster", "Critical", "Runtime exposure"],
+      ["workload-lab-cluster", "Critical", "Runtime exposure"],
       ["critical-service/db", "Critical", "Secret-backed path"],
       ["records-lab", "Critical", "Data-store context"],
       ["sensitive-reporting", "High", "Object storage scenario"],
