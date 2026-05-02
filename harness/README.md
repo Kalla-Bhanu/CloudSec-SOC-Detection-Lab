@@ -12,6 +12,8 @@ What it is not:
 - a rebuilt Google Workspace integration
 - a rebuilt CrowdStrike, MongoDB, or Tenable live pipeline
 
+The supported public validation path is local and fixture-based. See `../docs/reproducibility.md` for the clone, install, test, and dashboard run steps.
+
 ## Files
 
 - `lambda_function.py`
@@ -33,6 +35,10 @@ The five canonical replay scenarios are:
 - `s3_data_access_exfiltration`
 
 ## Deploy
+
+The deployment commands below are reference deployment steps for users with their own AWS and Datadog accounts. They are not required for the public portfolio review, and they are not validated by this repository's continuous integration because they require live AWS and Datadog credentials supplied outside the repo.
+
+Review the generated IAM policy and keep all keys, tokens, and secret values outside the repository before adapting these commands.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File ".\deploy-soclab-test-harness.ps1"

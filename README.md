@@ -9,6 +9,7 @@
 - [Live dashboard (Vercel)](https://cloudsec-soc-detection-lab.vercel.app/dashboard/)
 - [Live dashboard (GitHub Pages)](https://kalla-bhanu.github.io/CloudSec-SOC-Detection-Lab/)
 - [Demo walkthrough](docs/demo-walkthrough.md)
+- [Reproducibility](docs/reproducibility.md)
 - [Detection scenarios](#detection-scenarios)
 - [License](LICENSE)
 
@@ -52,6 +53,7 @@ tools/                Utility scripts for generated public-safe assets
 - Dashboard: `dashboard/index.html`
 - Flowcharts: `docs/architecture-and-flowcharts.md`
 - Demo walkthrough: `docs/demo-walkthrough.md`
+- Reproducibility: `docs/reproducibility.md`
 - CLI/query examples: `docs/queries/cli-query-examples.md`
 - Evidence manifest: `evidence-templates/asset-manifest.md`
 - Presentation deck: `docs/deck/cloudsec-soc-detection-lab.pptx`
@@ -75,6 +77,17 @@ powershell -ExecutionPolicy Bypass -File .\run-dashboard.ps1
 ```
 
 Then open the local URL printed by the script.
+
+## Reproduce The Public Package
+
+The supported validation path is documented in `docs/reproducibility.md`. The core local checks are:
+
+```powershell
+python -B -m pytest --assert=plain -p no:cacheprovider
+npm run test:dashboard
+```
+
+That guide also covers dependency installation, workflow linting, the public-safe verifier, the local dashboard command, and the boundary between fixture-based validation and external AWS or Datadog deployment.
 
 ## Harness Concept
 
